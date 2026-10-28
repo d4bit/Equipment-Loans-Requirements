@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Ultrasound U1</fullName>
+        <default>false</default>
+        <label>Ultrasound U1</label>
+    </customValue>
+    <customValue>
+        <fullName>Patient Monitor M5</fullName>
+        <default>false</default>
+        <label>Patient Monitor M5</label>
+    </customValue>
+    <customValue>
+        <fullName>Blood Analyzer A200</fullName>
+        <default>false</default>
+        <label>Blood Analyzer A200</label>
+    </customValue>
+    <customValue>
+        <fullName>Infusion Pump P3</fullName>
+        <default>false</default>
+        <label>Infusion Pump P3</label>
+    </customValue>
+    <customValue>
+        <fullName>ECG Device E12</fullName>
+        <default>false</default>
+        <label>ECG Device E12</label>
+    </customValue>
+    <description>Demo equipment models that can be loaned to customers (Equipment Loan). Admins can add values.</description>
+    <masterLabel>Equipment Name</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
