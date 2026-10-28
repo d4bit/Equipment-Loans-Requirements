@@ -98,3 +98,23 @@ TK-115 was cancelled by the PO. The project doesn't maintain User.ManagerId; the
 | Account related list | `Equipment_Loans` (on `Account__c`) | **Manual post-deploy step** on the `Business_Account`, `SDO_Account_Simple` and `SDO_Account_Partner` layouts. Not in metadata, so the shared SDO layouts are not overwritten |
 
 Rep read-only access to Sales Rep and Sales Manager comes from FLS (US-118), not from the layout.
+
+## Equipment Loan return reminder (US-116)
+
+| Component | Details |
+|---|---|
+| Flow `Equipment_Loan_Return_Reminder` | Schedule-triggered. Runs daily at 08:00 America/Los_Angeles as the Automated Process user. Start filter: `Status__c` = `Shipped` AND `Sales_Rep__c` not null. |
+| Decision `Is_Reminder_Due` | `Return_Date__c` = `$Flow.CurrentDate` + 1 AND `Sales_Rep__r.IsActive`. |
+| Email alert `EL_Return_Reminder_Alert` | Recipient: user lookup `Sales_Rep__c`. Sender: `DefaultWorkflowUser`. Template: `Equipment_Loans/Equipment_Loan_Return_Reminder` (Classic Text, uses `{!Equipment_Loan__c.Link}`). |
+| Task `Log_Reminder_Activity` | `WhatId` = loan, `OwnerId` = Sales Rep, Subtype `Email`, Status `Completed`, `ActivityDate` = run date. |
+| Email folder `Equipment_Loans` | Public, ReadOnly. Shared with US-113. |
+
+**Error handling and side effects**
+- The flow has no fault paths on purpose. Errors go to the flow error email recipient.
+- The flow does not update `Equipment_Loan__c`.
+- The Task insert fires the SDO managed trigger `SDO_Tool_SalesforceRewind_Task`.
+
+**Deployment**
+- `workflows/Equipment_Loan__c.workflow-meta.xml` is shared with US-113. Merge the alerts and field updates from both stories.
+- Post-deploy: set the Default Workflow User, check that Scheduled Jobs shows 08:00 Pacific, and set Deliverability to All Email.
+- There is no Apex and no permission set change.
