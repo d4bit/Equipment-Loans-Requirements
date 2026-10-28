@@ -26,11 +26,20 @@
         <name>CustomTab</name>
     </types>
     <types>
+        <members>Equipment_Loans</members>
+        <name>EmailFolder</name>
+    </types>
+    <types>
+        <members>Equipment_Loans/Equipment_Loan_Return_Reminder</members>
+        <name>EmailTemplate</name>
+    </types>
+    <types>
         <members>Equipment_Loan_Record_Page</members>
         <name>FlexiPage</name>
     </types>
     <types>
         <members>Equipment_Loan_Before_Save_Set_Rep_Manager</members>
+        <members>Equipment_Loan_Return_Reminder</members>
         <name>Flow</name>
     </types>
     <types>
@@ -68,6 +77,10 @@
         <members>Equipment_Loan__c.Return_Date_After_Start_Date</members>
         <members>Equipment_Loan__c.Return_Date_Max_30_Days</members>
         <name>ValidationRule</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c.EL_Return_Reminder_Alert</members>
+        <name>WorkflowAlert</name>
     </types>
     <version>62.0</version>
 </Package>
