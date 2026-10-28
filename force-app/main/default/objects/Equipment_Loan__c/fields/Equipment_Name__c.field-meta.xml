@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Equipment_Name__c</fullName>
+    <description>Demo equipment model on loan. Restricted picklist backed by global value set Equipment_Name (PO decision: controlled list so the managers' report groups correctly).</description>
+    <inlineHelpText>Model of the demo equipment being loaned.</inlineHelpText>
+    <label>Equipment Name</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Equipment_Name</valueSetName>
+    </valueSet>
+</CustomField>

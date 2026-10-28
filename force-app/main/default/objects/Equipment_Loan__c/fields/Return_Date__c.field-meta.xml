@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Return_Date__c</fullName>
+    <description>Date the equipment must be returned. Date policy (max 30 days after Start Date) is enforced by US-110.</description>
+    <inlineHelpText>Date the equipment must be back. Max 30 days after Start Date.</inlineHelpText>
+    <label>Return Date</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>
