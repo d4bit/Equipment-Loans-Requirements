@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Bypass_Equipment_Loan_Validation</name>
+    </customPermissions>
+    <description>US-114: grants only the custom permission Bypass_Equipment_Loan_Validation (skips the Shipped/Approval Status guards on Equipment Loan). Not assigned by default; assign to the migration user only during the US-120 load window and remove afterwards.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Equipment Loan Data Migration</label>
+</PermissionSet>

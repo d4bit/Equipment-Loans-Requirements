@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approval_Status_System_Only</fullName>
+    <active>true</active>
+    <description>US-114: Approval Status is set only by the approval process. Blocks a non-default value on create and any manual change on update (all users, API too). Bypass: custom permission Bypass_Equipment_Loan_Validation.</description>
+    <errorConditionFormula>AND(
+    NOT($Permission.Bypass_Equipment_Loan_Validation),
+    OR(
+        AND(
+            ISNEW(),
+            NOT(ISBLANK(TEXT(Approval_Status__c))),
+            NOT(ISPICKVAL(Approval_Status__c, &quot;Not_Submitted&quot;))
+        ),
+        AND(
+            NOT(ISNEW()),
+            ISCHANGED(Approval_Status__c)
+        )
+    )
+)</errorConditionFormula>
+    <errorDisplayField>Approval_Status__c</errorDisplayField>
+    <errorMessage>Approval Status is set by the approval process and cannot be changed manually.</errorMessage>
+</ValidationRule>

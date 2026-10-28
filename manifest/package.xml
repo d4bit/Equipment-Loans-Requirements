@@ -18,6 +18,10 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>Bypass_Equipment_Loan_Validation</members>
+        <name>CustomPermission</name>
+    </types>
+    <types>
         <members>Equipment_Loan_Before_Save_Set_Rep_Manager</members>
         <name>Flow</name>
     </types>
@@ -30,6 +34,7 @@
         <name>Group</name>
     </types>
     <types>
+        <members>Equipment_Loan_Data_Migration</members>
         <members>Equipment_Loan_Manager</members>
         <members>Equipment_Loan_User</members>
         <name>PermissionSet</name>
@@ -40,6 +45,8 @@
     </types>
     <types>
         <members>Equipment_Loan__c.Account_Cannot_Change</members>
+        <members>Equipment_Loan__c.Approval_Status_System_Only</members>
+        <members>Equipment_Loan__c.Shipped_Requires_Approval</members>
         <name>ValidationRule</name>
     </types>
     <version>62.0</version>

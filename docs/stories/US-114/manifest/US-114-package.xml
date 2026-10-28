@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Bypass_Equipment_Loan_Validation</members>
+        <name>CustomPermission</name>
+    </types>
+    <types>
+        <members>Equipment_Loan_Data_Migration</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c.Approval_Status_System_Only</members>
+        <members>Equipment_Loan__c.Shipped_Requires_Approval</members>
+        <name>ValidationRule</name>
+    </types>
+    <version>62.0</version>
+</Package>
