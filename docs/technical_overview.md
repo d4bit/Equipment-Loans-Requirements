@@ -84,3 +84,17 @@ Deploy together with US-109.
 ## User manager prerequisite (TK-115)
 
 TK-115 was cancelled by the PO. The project doesn't maintain User.ManagerId; the admin does that outside the project. Sales_Manager__c is set from the Sales Rep's ManagerId only when a loan is created or its Sales Rep changes (US-111). If the rep has no manager, the field stays empty and the approval can't route. Changing a user's manager doesn't recalculate existing loans: an admin re-saves the loan's Sales Rep. Only admins may delete loans (the US-118 permission sets have allowDelete=false).
+
+## Equipment Loan user interface (US-112)
+
+| Component | API name | Notes |
+|---|---|---|
+| Tab | `Equipment_Loan__c` | Not in any app. Visible via `tabSettings` in `Equipment_Loan_User` and `Equipment_Loan_Manager` |
+| Layout | `Equipment_Loan__c-Equipment Loan Layout` | Sections Loan Details / Approval (`Approval_Status__c` Readonly) / System Information. Excludes `ChangeOwnerOne` and `ChangeRecordType`. Actions: Edit, Submit, Delete. Related lists: `RelatedProcessHistoryList`, `RelatedHistoryList`, `RelatedEntityHistoryList` |
+| Compact layout | `Equipment_Loan_Compact` | Name, Account__c, Equipment_Name__c, Status__c, Return_Date__c; assigned on the object |
+| FlexiPage | `Equipment_Loan_Record_Page` | Desktop default via the View `actionOverrides` on the object |
+| Path | `Equipment_Loan_Status_Path` | `Status__c`, all values, active (needs Path Settings enabled) |
+| List views | `Open_Loans`, `My_Loans` | Open_Loans: scope Everything, Status in Requested/Approved/Shipped. My_Loans: scope Mine |
+| Account related list | `Equipment_Loans` (on `Account__c`) | **Manual post-deploy step** on the `Business_Account`, `SDO_Account_Simple` and `SDO_Account_Partner` layouts. Not in metadata, so the shared SDO layouts are not overwritten |
+
+Rep read-only access to Sales Rep and Sales Manager comes from FLS (US-118), not from the layout.
