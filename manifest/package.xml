@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>Equipment_Loan__c.Equipment_Loan_Compact</members>
+        <name>CompactLayout</name>
+    </types>
+    <types>
         <members>Equipment_Loan__c.Account__c</members>
         <members>Equipment_Loan__c.Approval_Status__c</members>
         <members>Equipment_Loan__c.Equipment_Name__c</members>
@@ -18,6 +22,14 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>Equipment_Loan__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Equipment_Loan_Record_Page</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
         <members>Equipment_Loan_Before_Save_Set_Rep_Manager</members>
         <name>Flow</name>
     </types>
@@ -28,6 +40,19 @@
     <types>
         <members>Equipment_Loan_Managers</members>
         <name>Group</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c-Equipment Loan Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c.My_Loans</members>
+        <members>Equipment_Loan__c.Open_Loans</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>Equipment_Loan_Status_Path</members>
+        <name>PathAssistant</name>
     </types>
     <types>
         <members>Equipment_Loan_Manager</members>
