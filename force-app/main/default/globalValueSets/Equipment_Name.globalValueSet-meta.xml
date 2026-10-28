@@ -25,7 +25,7 @@
         <default>false</default>
         <label>ECG Device E12</label>
     </customValue>
-    <description>Demo equipment models that can be loaned to customers (Equipment Loan). Admins can add values.</description>
+    <description>Demo equipment models that can be loaned to customers (Equipment Loan, field Equipment_Name__c). Admins can add values.</description>
     <masterLabel>Equipment Name</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
