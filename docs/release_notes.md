@@ -1,59 +1,61 @@
-# Release 1.0.0 — R1.0.0
+# Release 1.0.0 — Equipment Loans (first release)
 
-**Target org:** SDO (production, https://si1793175555706.my.salesforce.com). Mode: check-only validation, test level RunLocalTests. The real deployment is a separate, human-approved step.
+**Target org:** SDO (production, https://si1793175555706.my.salesforce.com)
+**Status: VALIDATED ONLY — NOT DEPLOYED.** This was a check-only validation (test level RunLocalTests). Nothing has been deployed to SDO yet. The product owner deploys it from the **Release tab** (quick deploy of validation job `0Afak00000qAuRBCA0`).
 
 ## Highlights
-- New **Equipment Loan** record for tracking demo equipment lent to accounts: auto-numbered (EL-00000), private sharing, field history.
-- Sales Rep and Sales Manager fill in automatically from the record owner and the rep's manager.
-- Loan dates are enforced: Return Date must be after Start Date and no more than 30 days after it.
-- Equipment Loans tab, record page with status path, list views (Open Loans, My Loans), and permission sets for reps and managers.
-- A daily email reminds the Sales Rep the day before a shipped loan is due back, and logs the email as an activity on the loan.
+- New **Equipment Loan** record to track demo equipment lent to accounts (loan number, equipment, serial number, dates, status, approval status). Records are private.
+- **Sales Rep** and **Sales Manager** are filled in automatically from the record owner and the owner's manager.
+- Date checks: the return date must be after the start date and no more than 30 days after it.
+- Equipment Loans tab, record page with a status path, "Open Loans" and "My Loans" list views. Reps and managers get access through permission sets.
+- Daily 08:00 reminder email to the sales rep about loans that are due back.
 
 ## Delivered
 | Code | Title | Category | Points |
 |---|---|---|---|
-| US-109 | Equipment Loan object and fields | configuration | 5 |
-| US-118 | Equipment Loan permission sets for reps and managers | security | 3 |
-| US-111 | Auto-populate Sales Rep and Sales Manager on loan | configuration | 3 |
-| US-110 | Loan date validation (return within 30 days of start) | configuration | 1 |
-| US-112 | Equipment Loan user interface (tab, layout, Account related list) | configuration | 3 |
-| TK-115 | Verify and populate Manager on all sales rep users | script | 2 (cancelled by PO, nothing delivered) |
-| US-116 | Daily return reminder email to sales rep | configuration | 5 |
-
-Not included: US-120 (spreadsheet migration). The PO cancelled it. US-113 (approval) is not in this release.
+| US-109 | Equipment Loan object and fields | Data model | — |
+| US-118 | Equipment Loan permission sets for reps and managers | Security | — |
+| US-111 | Auto-populate Sales Rep and Sales Manager on loan | Automation | — |
+| US-110 | Loan date validation (return within 30 days of start) | Validation | — |
+| US-112 | Equipment Loan user interface (tab, layout, Account related list) | UI | — |
+| US-116 | Daily return reminder email to sales rep | Automation | — |
+| TK-115 | Verify and populate Manager on all sales rep users | Task — **cancelled**, no components | — |
+| US-120 | Load open loans from the spreadsheet | Story — **cancelled**, migration out of scope | — |
 
 ## Deployment
-- Manifest `manifest/package.xml` built from force-app (API 62.0) with 33 components: CustomObject, 10 CustomFields, 3 ValidationRules, GlobalValueSet, 2 Flows, Workflow + WorkflowAlert, EmailTemplate + folder Equipment_Loans, CustomTab, Layout, CompactLayout, FlexiPage, PathAssistant, 2 ListViews, 2 PermissionSets, Group, SharingRules/SharingOwnerRule.
-- The manifest generator previously dropped some components (team note #34). That gap is fixed: every story component is present, and the manifest contains nothing unrelated.
-- **Validation:** check-only deploy to SDO ✅ succeeded. 33 components, 0 tests run (the release has no Apex).
-- **Pre-deployment:** deploy all stories together in one manifest. US-111, US-112 and US-116 depend on US-109. Get the CSV of rep and manager usernames from Lumen.
-- **Post-deployment steps (manual):**
-  1. Assign the `Equipment_Loan_User` permission set to reps and `Equipment_Loan_Manager` to managers. Add the managers to the public group `Equipment_Loan_Managers`.
-  2. Account page layouts used by the sales profiles (Business_Account, SDO_Account_Simple, SDO_Account_Partner): add the **Equipment Loans** related list with the columns given in US-112.
-  3. Process Automation Settings: set the Default Workflow User, and set the flow error email recipient to the Lumen admin.
-  4. Check that both flows are Active. Check that Setup → Scheduled Jobs shows the next run of `Equipment_Loan_Return_Reminder` at 08:00 Pacific.
-  5. Admin keeps `User.ManagerId` filled in for every sales rep (38 active users currently have no manager).
+- **Manifest:** `manifest/package.xml` (API 62.0). It covers every story component: CustomObject, 10 CustomField, 3 ValidationRule, GlobalValueSet, 2 Flow, Workflow + WorkflowAlert, EmailFolder + EmailTemplate, CustomTab, Layout, CompactLayout, FlexiPage, PathAssistant, 2 ListView, 2 PermissionSet, Group, SharingRules/SharingOwnerRule. Nothing unrelated is included.
+- **Validation:** check-only deploy to SDO ✅ Succeeded. 33 components, 0 Apex tests run (there is no Apex in this release). Job `0Afak00000qAuRBCA0`.
+- **Pre-deployment steps (before the PO deploys):**
+  - Get from Lumen the CSV of rep and manager **usernames** (US-118).
+  - Admin populates `User.ManagerId` for all sales reps (US-111; TK-115 was cancelled, so the admin does this outside the project).
+- **Post-deployment steps (after deploy):**
+  1. Assign `Equipment_Loan_User` to reps and `Equipment_Loan_Manager` to managers. Add the managers to the public group **Equipment Loan Managers** (US-118).
+  2. If flows were not deployed as active, activate `Equipment_Loan_Before_Save_Set_Rep_Manager` and `Equipment_Loan_Return_Reminder` (US-111, US-116).
+  3. Process Automation Settings: set **Default Workflow User** and the flow error email recipient. Check that Scheduled Jobs shows the reminder's next run at 08:00 (US-116).
+  4. Account page layouts used by the sales profiles (record types Business_Account, SDO_Account_Simple, SDO_Account_Partner): add the **Equipment Loans** related list with columns Loan Number, Equipment Name, Serial Number, Start Date, Return Date and Status, sorted by Return Date descending (US-112).
+  5. Do **not** assign `Equipment_Loan_Data_Migration` to anyone (US-120 cancelled).
 
 ## Smoke test results
-SDO is a production org and this run is validate-only, so smoke checks are at validation and metadata level. Run the runtime checks (create a loan, date rules, reminder) after the real deployment.
-
+The release is check-only on a production org, so functional smoke tests (and anonymous Apex) could not run. The smoke checks are at validation level: each component validated in SDO, and SOQL confirms none of them exist there yet. Re-run the functional checks after the deploy.
 | Code | Result | Note |
 |---|---|---|
-| US-109 | ✅ | Object, fields, value set and validation rule accepted by validation |
-| US-118 | ✅ | Permission sets, group and sharing rule now in the manifest and validated |
-| US-111 | ✅ | Before-save flow is Active, triggers on create/update and sets Rep, Owner and Manager |
-| US-110 | ✅ | Both date validation rules are Active; exactly 30 days is allowed |
-| US-112 | ✅ | Tab, layout, compact layout, record page, path and list views validated |
-| TK-115 | ✅ | Cancelled; nothing to deploy |
-| US-116 | ✅ | Scheduled flow, email alert and template validated |
+| US-109 | ✅ (validation) | Object, fields, value set and Account_Cannot_Change validated. After deploy: check OWD Private/Private, history tracking, 5 picklist values. |
+| US-118 | ✅ (validation) | Permission sets, group and sharing rule validated. After deploy: check the assignments and group members. |
+| US-111 | ✅ (validation) | Before-save flow validated. After deploy: create a loan as a rep and check Sales Rep and Sales Manager. |
+| US-110 | ✅ (validation) | Both date rules validated. After deploy: a return date 31 days after start must be blocked. |
+| US-112 | ✅ (validation) | Tab, layout, compact layout, record page, path, list views and tab settings validated. |
+| US-116 | ✅ (validation) | Scheduled flow, alert, folder and template validated. After deploy: confirm the scheduled job. |
+| TK-115 | ✅ N/A | Cancelled. Not in the manifest. |
+| US-120 | ✅ N/A | Cancelled. Not in the manifest, and no migration permission set exists in SDO. |
 
 ## Known issues
-- In metadata, the reminder flow's start time is stored as `08:00:00.000Z`. After deployment, confirm in Scheduled Jobs that it runs at 08:00 Pacific, and adjust the flow start if it does not.
-- Loans whose Sales Rep has no manager get a blank Sales Manager until the admin fills in `User.ManagerId`.
-- Adding the Account related list is a manual step and is not covered by the metadata.
+- No Apex tests ran, because the release has no Apex. Behaviour is not checked by any automated test until the post-deploy smoke checks.
+- The sharing rule `Equipment_Loan_Managers_Edit` ships in this release. A later story (US-119, not in this release) removes it and sets manager edit to false. Watch for the merge risks recorded for US-113, US-117 and US-119.
+- The Sales Manager value depends on `User.ManagerId`. Reps without a manager get an empty Sales Manager.
+- The Account related list is a manual step and is not deployed as metadata.
 
 ## Rollback plan
-- All components are new, so rollback means removing them. Use a destructiveChanges.xml with the same members as package.xml. Order: deactivate the flows first, then remove permission sets, sharing rules and group, then UI components (FlexiPage, PathAssistant, Layout, Tab), then workflow alert and email template/folder, and finally the object and global value set.
-- No data migration is in this release. If loans were already created, export Equipment_Loan__c records before deleting the object.
-- Revert the Account layout related lists by hand.
-- Decision owner: Lumen product owner, with the release manager.
+- This is a first release with all-new components, so nothing existing in SDO is overwritten (the Account layouts change only through the manual step).
+- To roll back: deactivate both flows, remove the permission set assignments and group members, then deploy a `destructiveChanges.xml` covering the manifest components (dependents first: permission sets, FlexiPage, PathAssistant, layouts, tab, workflow, flows, sharing rules, group, email template and folder, then the object and the global value set). Remove the related list from the Account layouts by hand.
+- No data migration was done, so there is no data to restore. Loan records created after go-live would be lost if the object is deleted: export them first.
+- Decision owner: the product owner (Lumen Diagnostics).
