@@ -18,6 +18,10 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>Equipment_Loan_Before_Save_Set_Rep_Manager</members>
+        <name>Flow</name>
+    </types>
+    <types>
         <members>Equipment_Name</members>
         <name>GlobalValueSet</name>
     </types>

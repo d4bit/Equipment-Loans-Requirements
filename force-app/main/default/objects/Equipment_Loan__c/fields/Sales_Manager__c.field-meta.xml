@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Sales_Manager__c</fullName>
-    <description>Manager of the sales rep (from the rep's user Manager). Filled by the US-111 flow; approver of the loan in the approval process (EP-102).</description>
+    <description>Manager of the sales rep (from the rep's user Manager). Filled by flow Equipment_Loan_Before_Save_Set_Rep_Manager (US-111); approver of the loan in the approval process (EP-102).</description>
     <inlineHelpText>Manager who approves this loan. Filled automatically from the Sales Rep's manager.</inlineHelpText>
     <label>Sales Manager</label>
     <referenceTo>User</referenceTo>

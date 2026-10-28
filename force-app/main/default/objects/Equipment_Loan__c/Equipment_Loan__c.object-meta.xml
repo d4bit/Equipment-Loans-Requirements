@@ -2,7 +2,7 @@
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <allowInChatterGroups>false</allowInChatterGroups>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Demo equipment loaned to a customer account (replaces sales spreadsheet). Owner = sales rep.</description>
+    <description>Demo equipment loaned to a customer account (replaces sales spreadsheet). Owner = sales rep, kept in sync by flow Equipment_Loan_Before_Save_Set_Rep_Manager.</description>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Sales_Rep__c</fullName>
-    <description>Sales rep responsible for the loan. Kept in sync with the record owner by the US-111 flow.</description>
+    <description>Sales rep responsible for the loan. Kept in sync with the record owner by flow Equipment_Loan_Before_Save_Set_Rep_Manager (US-111).</description>
     <inlineHelpText>Sales rep responsible for this loan. Must be an active internal user.</inlineHelpText>
     <label>Sales Rep</label>
     <lookupFilter>
