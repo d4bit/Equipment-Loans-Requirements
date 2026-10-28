@@ -78,6 +78,19 @@
         <name>PermissionSet</name>
     </types>
     <types>
+        <members>Equipment_Loan_Reports</members>
+        <members>Equipment_Loan_Reports/Open_Equipment_Loans_by_Equipment</members>
+        <name>Report</name>
+    </types>
+    <types>
+        <members>Equipment_Loans_with_Account</members>
+        <name>ReportType</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c.Equipment_Loan_Managers_Edit</members>
+        <name>SharingOwnerRule</name>
+    </types>
+    <types>
         <members>Equipment_Loan__c.Account_Cannot_Change</members>
         <members>Equipment_Loan__c.Approval_Status_System_Only</members>
         <members>Equipment_Loan__c.Return_Date_After_Start_Date</members>

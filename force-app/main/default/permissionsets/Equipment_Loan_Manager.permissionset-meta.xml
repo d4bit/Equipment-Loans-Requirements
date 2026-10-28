@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Managers: View All Equipment Loans, read-only (no edit, delete or Modify All; US-119). Approve via approval process. Sales Rep/Manager editable only on create; Approval Status read-only. Equipment Loans tab visible (US-112).</description>
+    <description>Managers: View All Equipment Loans, read-only (no edit, delete or Modify All; US-119). Approve via approval process. Sales Rep/Manager editable only on create; Approval Status read-only. Tab visible (US-112). Run Reports (US-117).</description>
     <fieldPermissions>
         <editable>false</editable>
         <field>Equipment_Loan__c.Approval_Status__c</field>
@@ -49,4 +49,8 @@
         <tab>Equipment_Loan__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>RunReports</name>
+    </userPermissions>
 </PermissionSet>
