@@ -22,6 +22,17 @@
         <senderType>CurrentUser</senderType>
         <template>Equipment_Loans/Equipment_Loan_Rejected</template>
     </alerts>
+    <alerts>
+        <fullName>EL_Return_Reminder_Alert</fullName>
+        <description>US-116: reminds the Sales Rep one day before the return date of a shipped equipment loan.</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Sales_Rep__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Equipment_Loans/Equipment_Loan_Return_Reminder</template>
+    </alerts>
     <fieldUpdates>
         <fullName>EL_Set_Approval_Approved</fullName>
         <description>US-113: final approval sets Approval Status to Approved.</description>
