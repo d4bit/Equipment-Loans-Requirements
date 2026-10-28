@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <assignments>
+        <description>Sets Sales Manager to the Manager of the Sales Rep user (blank when the rep has no manager).</description>
+        <name>Set_Manager</name>
+        <label>Set Manager</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Sales_Manager__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Rep_User.ManagerId</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Clears Sales Manager when the Sales Rep user could not be found.</description>
+        <name>Clear_Manager</name>
+        <label>Clear Manager</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Sales_Manager__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Keeps the owner equal to the Sales Rep: sets OwnerId from the new or explicitly given Sales Rep. Sales Rep wins when both change in one save.</description>
+        <name>Set_Owner_From_Rep</name>
+        <label>Set Owner From Rep</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.OwnerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Sales_Rep__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Rep_User</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Sets Sales Rep from the record owner: on create the owner is the creating user unless an owner is given explicitly (assumption A1, data loads); on Change Owner the new owner becomes the rep.</description>
+        <name>Set_Rep_From_Owner</name>
+        <label>Set Rep From Owner</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Sales_Rep__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.OwnerId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Rep_User</targetReference>
+        </connector>
+    </assignments>
+    <customErrors>
+        <description>Shown when the Sales Rep user cannot be read, so the loan is not saved with an inconsistent Sales Manager.</description>
+        <name>Rep_Lookup_Error</name>
+        <label>Rep Lookup Error</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <customErrorMessages>
+            <errorMessage>The Sales Manager could not be determined from the Sales Rep. Please try again or contact your Salesforce administrator.</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <description>Checks whether the Sales Rep user record was found.</description>
+        <name>Rep_User_Found</name>
+        <label>Rep User Found?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Clear_Manager</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Rep_User</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Manager</targetReference>
+            </connector>
+            <label>Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decides which side (Sales Rep or Owner) drives the other. Rep blank or owner-only change: rep from owner. New loan with rep or rep changed: owner from rep (rep wins when both change).</description>
+        <name>Which_Change</name>
+        <label>Which Change?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>No Relevant Change</defaultConnectorLabel>
+        <rules>
+            <name>Rep_Blank_Or_Owner_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>frmRepFromOwner</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Rep_From_Owner</targetReference>
+            </connector>
+            <label>Rep Blank Or Owner Changed</label>
+        </rules>
+        <rules>
+            <name>Rep_Set_Or_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>frmOwnerFromRep</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Owner_From_Rep</targetReference>
+            </connector>
+            <label>Rep Set Or Changed</label>
+        </rules>
+    </decisions>
+    <description>US-111: keeps Owner = Sales Rep on Equipment Loan and sets Sales Manager from the rep's User.ManagerId. Runs before save on create, or when Sales Rep or Owner changes. Unrelated edits do not recalculate the manager.</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>True when the owner must be set from the Sales Rep: new loan with a Sales Rep given, or Sales Rep changed.</description>
+        <name>frmOwnerFromRep</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(ISNEW(), ISCHANGED({!$Record.Sales_Rep__c}))</expression>
+    </formulas>
+    <formulas>
+        <description>True when the Sales Rep must be set from the owner: Sales Rep is blank (create, or cleared), or only the owner changed (Change Owner).</description>
+        <name>frmRepFromOwner</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(ISBLANK({!$Record.Sales_Rep__c}), AND(ISCHANGED({!$Record.OwnerId}), NOT(ISCHANGED({!$Record.Sales_Rep__c}))))</expression>
+    </formulas>
+    <interviewLabel>Equipment Loan Before Save Set Rep Manager {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Equipment Loan Before Save Set Rep Manager</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Reads the Sales Rep user (after the assignment above) to get the ManagerId. Bulkified by the flow runtime across the batch.</description>
+        <name>Get_Rep_User</name>
+        <label>Get Rep User</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Rep_User_Found</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Rep_Lookup_Error</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Sales_Rep__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>ManagerId</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Which_Change</targetReference>
+        </connector>
+        <filterFormula>OR(ISNEW(), ISCHANGED({!$Record.Sales_Rep__c}), ISCHANGED({!$Record.OwnerId}))</filterFormula>
+        <object>Equipment_Loan__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
