@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Sends the return reminder email (email alert EL_Return_Reminder_Alert) to the loan&apos;s Sales Rep from the default workflow user.</description>
+        <name>Send_Return_Reminder</name>
+        <label>Send Return Reminder</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Equipment_Loan__c.EL_Return_Reminder_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>Log_Reminder_Activity</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Equipment_Loan__c.EL_Return_Reminder_Alert</nameSegment>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <description>A reminder is due only when the Return Date is tomorrow (org time zone, calendar days) and the Sales Rep user is active. Otherwise the interview ends without email or activity.</description>
+        <name>Is_Reminder_Due</name>
+        <label>Is Reminder Due?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Not Due</defaultConnectorLabel>
+        <rules>
+            <name>Due</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>fxIsDueTomorrow</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Sales_Rep__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Return_Reminder</targetReference>
+            </connector>
+            <label>Due</label>
+        </rules>
+    </decisions>
+    <description>US-116. Runs daily at 08:00 org time (America/Los_Angeles) on Shipped loans with a Sales Rep. When the Return Date is tomorrow and the Sales Rep is active, emails the Sales Rep (email alert, default workflow user as sender) and logs a completed email Task on the loan. No fault paths on purpose: failures raise the standard flow error email to the admin. Runs in system context (Automated Process user) because the job has no running user and must see all Shipped loans.</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>True when the loan&apos;s Return Date is tomorrow (run date + 1 calendar day).</description>
+        <name>fxIsDueTomorrow</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.Return_Date__c} = {!$Flow.CurrentDate} + 1</expression>
+    </formulas>
+    <formulas>
+        <description>Subject of the logged email activity.</description>
+        <name>fxTaskSubject</name>
+        <dataType>String</dataType>
+        <expression>&quot;Email: Equipment loan &quot; &amp; {!$Record.Name} &amp; &quot; is due back tomorrow&quot;</expression>
+    </formulas>
+    <interviewLabel>Equipment Loan Return Reminder {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Equipment Loan – Return Reminder</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Logs the reminder as a completed email activity on the loan, assigned to the Sales Rep (email alerts do not log activities themselves).</description>
+        <name>Log_Reminder_Activity</name>
+        <label>Log Reminder Activity</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>ttTaskDescription</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>$Record.Sales_Rep__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>fxTaskSubject</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>TaskSubtype</field>
+            <value>
+                <stringValue>Email</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_Reminder_Due</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Shipped</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Sales_Rep__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Equipment_Loan__c</object>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2025-01-01</startDate>
+            <startTime>08:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <description>Plain-text description of the logged reminder activity.</description>
+        <name>ttTaskDescription</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Return reminder emailed to {!$Record.Sales_Rep__r.Name} ({!$Record.Sales_Rep__r.Email}).
+Account: {!$Record.Account__r.Name}
+Equipment: {!$Record.Equipment_Name__c}
+Serial number: {!$Record.Serial_Number__c}
+Return date: {!$Record.Return_Date__c}</text>
+    </textTemplates>
+</Flow>

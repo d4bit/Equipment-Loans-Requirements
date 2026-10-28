@@ -56,31 +56,102 @@ The 30-day maximum is inclusive (PO confirmed). The two date rules are mutually 
 
 ## Equipment Loan access control (US-118)
 
+Updated by US-119: loan visibility comes from loan ownership only. Managers are read-only.
+
 | Component | Type | Settings |
 |---|---|---|
+| `Equipment_Loan__c` sharing | OWD | Internal Private, external Private; Grant Access Using Hierarchies on (US-109) |
 | `Equipment_Loan_User` | Permission set (no license) | Equipment_Loan__c Read/Create/Edit; Account Read and Contact Read; `Approval_Status__c`, `Sales_Rep__c` and `Sales_Manager__c` Read only |
-| `Equipment_Loan_Manager` | Permission set (no license) | Same as User + View All; `Sales_Rep__c` and `Sales_Manager__c` Read + Edit; `Approval_Status__c` Read only |
-| `Equipment_Loan_Managers` | Public group | Members are the managers; doesIncludeBosses = false |
-| `Equipment_Loan__c.Equipment_Loan_Managers_Edit` | Owner-based sharing rule | All Internal Users → Equipment_Loan_Managers, Edit |
+| `Equipment_Loan_Manager` | Permission set (no license) | Equipment_Loan__c Read/Create + View All, **no Edit** (US-119); `Sales_Rep__c` and `Sales_Manager__c` Read + Edit (effective only on create); `Approval_Status__c` Read only |
+| `Equipment_Loan_Managers` | Public group | Unused since US-119 (cleanup candidate) |
+| Sharing rules | – | None. `Equipment_Loan_Managers_Edit` was removed in US-119 |
 
+| Who | Access |
+|---|---|
+| Owner (= Sales Rep, set by the US-111 flow) | Read/Edit, no Delete |
+| Managers | Read all (View All). They approve without Edit |
+| Owner's role-hierarchy superiors | Same as the owner, if they have a perm set that grants Edit |
+| Admins | Full (only they reassign and delete loans) |
+
+- There is no account-owner sharing, no `Equipment_Loan__Share` logic and no account-transfer automation.
 - No business user has Delete or Modify All.
-- Required fields aren't listed in the permission sets; they are reachable through object access.
 - Contact Read is required alongside Account Read because Person Accounts are enabled.
-- Tab visibility will be added by US-112.
-- The sharing rule needs OWD Private (set in US-109).
-- **Post-deploy:** assign the permission sets and group membership from Lumen's lists of reps and managers. Managers get `Equipment_Loan_Manager` only.
+- **Post-deploy:** assign the permission sets from Lumen's lists of reps and managers. Managers get `Equipment_Loan_Manager` only. No group membership is needed. In any org that already has `Equipment_Loan_Managers_Edit`, deploy `docs/stories/US-119/manifest/destructiveChangesPost.xml`.
 
 ## Equipment Loan approval guards (US-114)
 
-| Metadata | API Name | Notes |
+| Component | Type | Behaviour |
 |---|---|---|
-| ValidationRule | `Equipment_Loan__c.Shipped_Requires_Approval` | Error on `Status__c` when Status = `Shipped` on create or Status change and `Approval_Status__c` ≠ `Approved`. |
-| ValidationRule | `Equipment_Loan__c.Approval_Status_System_Only` | Error on `Approval_Status__c` when it is set on create to anything other than blank/`Not_Submitted`, or when it changes on update. Approval process field updates don't re-run validation rules, so US-113 is unaffected. |
-| CustomPermission | `Bypass_Equipment_Loan_Validation` | Both rules check `NOT($Permission.Bypass_Equipment_Loan_Validation)`. US-110 date rules intentionally don't check it. |
-| PermissionSet | `Equipment_Loan_Data_Migration` | Grants only the custom permission. Not assigned by default. Assign only for the US-120 load window, then remove. |
+| `Shipped_Requires_Approval` | Validation rule (error on `Status__c`) | Blocks `Status__c` = `Shipped` on insert or when Status changes, unless `Approval_Status__c` = `Approved` |
+| `Approval_Status_System_Only` | Validation rule (error on `Approval_Status__c`) | On insert, allows only a blank or `Not_Submitted` Approval Status. On update, blocks any change to Approval Status |
+| `Bypass_Equipment_Loan_Validation` | Custom permission | Both rules check `NOT($Permission.Bypass_Equipment_Loan_Validation)` |
+| `Equipment_Loan_Data_Migration` | Permission set | Grants only the custom permission. Unassigned by default; US-120 is cancelled |
 
-Deploy together with US-109.
+Notes:
+- Approval process field updates (US-113) don't re-run validation rules, so the approval actions are not blocked. Verify this in UAT.
+- The US-110 date rules deliberately ignore the bypass permission.
+- No Apex is involved.
 
 ## User manager prerequisite (TK-115)
 
 TK-115 was cancelled by the PO. The project doesn't maintain User.ManagerId; the admin does that outside the project. Sales_Manager__c is set from the Sales Rep's ManagerId only when a loan is created or its Sales Rep changes (US-111). If the rep has no manager, the field stays empty and the approval can't route. Changing a user's manager doesn't recalculate existing loans: an admin re-saves the loan's Sales Rep. Only admins may delete loans (the US-118 permission sets have allowDelete=false).
+
+## Equipment Loan user interface (US-112)
+
+| Component | API name | Notes |
+|---|---|---|
+| Tab | `Equipment_Loan__c` | Not in any app. Visible via `tabSettings` in `Equipment_Loan_User` and `Equipment_Loan_Manager` |
+| Layout | `Equipment_Loan__c-Equipment Loan Layout` | Sections Loan Details / Approval (`Approval_Status__c` Readonly) / System Information. Excludes `ChangeOwnerOne` and `ChangeRecordType`. Actions: Edit, Submit, Delete. Related lists: `RelatedProcessHistoryList`, `RelatedHistoryList`, `RelatedEntityHistoryList` |
+| Compact layout | `Equipment_Loan_Compact` | Name, Account__c, Equipment_Name__c, Status__c, Return_Date__c; assigned on the object |
+| FlexiPage | `Equipment_Loan_Record_Page` | Desktop default via the View `actionOverrides` on the object |
+| Path | `Equipment_Loan_Status_Path` | `Status__c`, all values, active (needs Path Settings enabled) |
+| List views | `Open_Loans`, `My_Loans` | Open_Loans: scope Everything, Status in Requested/Approved/Shipped. My_Loans: scope Mine |
+| Account related list | `Equipment_Loans` (on `Account__c`) | **Manual post-deploy step** on the `Business_Account`, `SDO_Account_Simple` and `SDO_Account_Partner` layouts. Not in metadata, so the shared SDO layouts are not overwritten |
+
+Rep read-only access to Sales Rep and Sales Manager comes from FLS (US-118), not from the layout.
+
+## Equipment Loan return reminder (US-116)
+
+| Component | Details |
+|---|---|
+| Flow `Equipment_Loan_Return_Reminder` | Schedule-triggered. Runs daily at 08:00 America/Los_Angeles as the Automated Process user. Start filter: `Status__c` = `Shipped` AND `Sales_Rep__c` not null. |
+| Decision `Is_Reminder_Due` | `Return_Date__c` = `$Flow.CurrentDate` + 1 AND `Sales_Rep__r.IsActive`. |
+| Email alert `EL_Return_Reminder_Alert` | Recipient: user lookup `Sales_Rep__c`. Sender: `DefaultWorkflowUser`. Template: `Equipment_Loans/Equipment_Loan_Return_Reminder` (Classic Text, uses `{!Equipment_Loan__c.Link}`). |
+| Task `Log_Reminder_Activity` | `WhatId` = loan, `OwnerId` = Sales Rep, Subtype `Email`, Status `Completed`, `ActivityDate` = run date. |
+| Email folder `Equipment_Loans` | Public, ReadOnly. Shared with US-113. |
+
+**Error handling and side effects**
+- The flow has no fault paths on purpose. Errors go to the flow error email recipient.
+- The flow does not update `Equipment_Loan__c`.
+- The Task insert fires the SDO managed trigger `SDO_Tool_SalesforceRewind_Task`.
+
+**Deployment**
+- `workflows/Equipment_Loan__c.workflow-meta.xml` is shared with US-113. Merge the alerts and field updates from both stories.
+- Post-deploy: set the Default Workflow User, check that Scheduled Jobs shows 08:00 Pacific, and set Deliverability to All Email.
+- There is no Apex and no permission set change.
+
+## Equipment Loan approval process (US-113)
+
+Declarative, no Apex.
+
+| Item | Value |
+|---|---|
+| Approval process | `Equipment_Loan__c.Equipment_Loan_Manager_Approval` (active, order 1) |
+| Entry criteria | `Status__c` = `Requested`; `Approval_Status__c` blank, `Not_Submitted` or `Rejected`; `Sales_Manager__c` not blank |
+| Submitters | All internal users (record visibility is the gate) |
+| Step | `Manager_Approval`, approver = `Sales_Manager__c`, delegates not allowed |
+| Lock | Locked while pending (admin or current approver can edit); unlocked after approval, rejection and recall |
+| Recall | Allowed |
+
+| Phase | Field update (`Approval_Status__c`) | Alert |
+|---|---|---|
+| Submit | `EL_Set_Approval_Pending` → `Pending` | Assignment email `Equipment_Loan_Approval_Request` |
+| Approve | `EL_Set_Approval_Approved` → `Approved` | `EL_Loan_Approved_Alert` → Sales Rep |
+| Reject | `EL_Set_Approval_Rejected` → `Rejected` | `EL_Loan_Rejected_Alert` → Sales Rep (with comments) |
+| Recall | `EL_Set_Approval_Not_Submitted` → `Not_Submitted` | – |
+
+- Email templates: Classic Text in folder `Equipment_Loans`. Alerts use sender CurrentUser because the org has no org-wide address.
+- Field updates run in system context and do not re-run validation rules, which US-114 relies on. Flow `Equipment_Loan_Before_Save_Set_Rep_Manager` re-fires but has no effect.
+- Shared file `workflows/Equipment_Loan__c.workflow-meta.xml` also contains US-116's `EL_Return_Reminder_Alert`. Always edit it starting from the merged content.
+- Post-deploy: check that the process is Active, set Deliverability = All Email, and make sure reps have a User.ManagerId.
+- Open point: unlock after approval vs. the PO's "approved is locked" (#28).

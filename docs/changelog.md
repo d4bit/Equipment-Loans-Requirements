@@ -2,4 +2,13 @@
 
 ## Changes
 
-- TK-115 Verify and populate Manager on all sales rep users: cancelled by the PO. The admin maintains user managers outside the project. Only admins may delete loans.
+- 2025 — US-119 Loan visibility: loans are visible only to their owner (Sales Rep), managers (read-only, View All) and role-hierarchy superiors; the manager edit sharing rule was removed.
+- 2025 — US-113 Manager approval process for equipment loans: loans are submitted to the Sales Manager for a one-step approval; the loan is locked while pending; the rep is emailed the approve/reject decision.
+- 2025 — US-116 Daily return reminder email to sales rep: daily 08:00 Pacific email to the Sales Rep of Shipped loans due back tomorrow, logged as a completed email activity.
+- 2025 — US-112 Equipment Loan user interface: Equipment Loans tab (App Launcher), Open Loans / My Loans list views, record page with Status path and compact layout, and an Account related list (added manually post-deploy).
+- 2025 — US-118 Equipment Loan access control: permission sets for loan access; only admins can delete loans.
+- 2025 — US-114 Block Shipped status until loan is approved: a loan can be marked Shipped only after manager approval; Approval Status can be changed only by the approval process; an unassigned bypass permission set exists for data migration.
+- 2025 — TK-115 User manager prerequisite: cancelled; the admin maintains user managers outside the project.
+- 2025 — US-111 Equipment Loan automation: Sales Rep and Sales Manager are filled automatically.
+- 2025 — US-110 Loan dates: the 30-day rule for loan dates.
+- 2025 — US-109 Equipment Loan object: new Equipment Loan record with core fields.
