@@ -8,9 +8,20 @@ An **Equipment Loan** records a demo device lent to a hospital. Each loan gets a
 2. Pick the **Account** (the hospital). Only business accounts can be chosen.
 3. Choose the **Equipment Name** from the list (Ultrasound U1, Patient Monitor M5, Blood Analyzer A200, Infusion Pump P3, ECG Device E12).
 4. Enter the **Serial Number**, **Start Date** and **Return Date**. All four fields are required.
-5. Save. The loan starts with **Status** = Requested and **Approval Status** = Not Submitted.
+5. Leave **Sales Rep** blank. When you save, it is filled in with your name.
+6. Save. The loan starts with **Status** = Requested and **Approval Status** = Not Submitted. **Sales Manager** is filled in with your manager.
 
 **Status values:** Requested, Approved, Shipped, Returned, Rejected, Cancelled. Requested, Approved and Shipped count as open loans.
+
+### Sales Rep, Sales Manager and Owner
+- The loan **Owner** and the **Sales Rep** are always the same person. If you change one, the other changes too.
+- **Sales Manager** is the Sales Rep's manager, as set on their user record. It is recalculated only when the Sales Rep or the Owner changes.
+- Managers and admins can change Sales Rep and Sales Manager. For sales reps, these fields are read-only.
+- If you clear Sales Rep, it is set back to the current owner when you save.
+
+> **Warning:** If your user record has no manager, the loan still saves, but Sales Manager stays blank and you cannot submit the loan for approval. Ask your administrator to set your manager.
+
+> **Tip:** If your manager changes later, loans you already created keep the old Sales Manager. To update a loan, a manager can set the Sales Rep again.
 
 > **Warning:** You cannot change the Account after you save the loan. If you picked the wrong account, cancel the loan and create a new one.
 
