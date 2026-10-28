@@ -13,23 +13,13 @@ An **Equipment Loan** records a demo device lent to a hospital. Each loan gets a
 
 **Status values:** Requested, Approved, Shipped, Returned, Rejected, Cancelled. Requested, Approved and Shipped count as open loans.
 
-### Sales Rep, Sales Manager and Owner
-- The loan **Owner** and the **Sales Rep** are always the same person. If you change one, the other changes too.
-- **Sales Manager** is the Sales Rep's manager, as set on their user record. It is recalculated only when the Sales Rep or the Owner changes.
-- Managers and admins can change Sales Rep and Sales Manager. For sales reps, these fields are read-only.
-- If you clear Sales Rep, it is set back to the current owner when you save.
+### Loan dates: the 30-day rule
+A demo loan can last at most 30 days.
+- **Return Date** must be after **Start Date**. If they are the same day or the return is earlier, you see: *"Return Date must be after Start Date."*
+- **Return Date** can be at most 30 days after **Start Date**. For example, a loan starting 1 March may be returned on 31 March at the latest. If you go past that, you see: *"Return Date must be no more than 30 days after Start Date."*
+- A start date in the past is allowed.
 
-> **Warning:** If your user record has no manager, the loan still saves, but Sales Manager stays blank and you cannot submit the loan for approval. Ask your administrator to set your manager.
-
-> **Tip:** If your manager changes later, loans you already created keep the old Sales Manager. To update a loan, a manager can set the Sales Rep again.
-
-> **Warning:** You cannot change the Account after you save the loan. If you picked the wrong account, cancel the loan and create a new one.
-
-> **Tip:** The same serial number can appear on several loans over time.
-
-- **Approval Status** is updated by the approval process. You cannot edit it.
-- Loans are private: you see the loans you own. Managers can see all loans.
-- You cannot delete an account that still has loans.
+> **Note:** The rule also applies when you edit a loan, whichever date you change. It applies to everyone, including administrators and data imports.
 
 ## Who can do what with equipment loans
 
@@ -46,3 +36,18 @@ What you can do depends on the access your administrator gives you.
 **Tips**
 - If you can't find the **Equipment Loans** tab, or the Equipment Loans list on an account, you don't have access yet. Ask your Salesforce administrator.
 - When a manager changes the **Sales Rep**, the loan's owner changes to that person automatically.
+
+## Shipping a loan: manager approval required
+
+A loan can be marked **Shipped** only after your manager has approved it.
+
+1. Submit the loan for approval and wait until **Approval Status** shows **Approved**.
+2. Open the loan, set **Status** to **Shipped**, and save.
+
+If the loan is not approved (Not Submitted, Pending or Rejected), saving shows: *"This loan must be approved by your manager before it can be shipped."* This applies to everyone, including managers and administrators.
+
+- You cannot create a new loan directly as **Shipped**.
+- **Approval Status** is set only by the approval process. Changing it by hand shows: *"Approval Status is set by the approval process and cannot be changed manually."*
+- Other edits to a shipped loan (for example the serial number) still save normally.
+
+> **Note:** The only exception is a temporary data-migration permission, which is used only while loading historical loans.

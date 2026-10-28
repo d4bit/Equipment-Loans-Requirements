@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Return_Date_After_Start_Date</fullName>
+    <active>true</active>
+    <description>US-110 – loan policy §2.1. Return Date must be strictly after Start Date (same-day return not allowed). Applies on create and edit, all users and API loads.</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Start_Date__c)),
+    NOT(ISBLANK(Return_Date__c)),
+    Return_Date__c &lt;= Start_Date__c
+)</errorConditionFormula>
+    <errorDisplayField>Return_Date__c</errorDisplayField>
+    <errorMessage>Return Date must be after Start Date.</errorMessage>
+</ValidationRule>

@@ -46,6 +46,8 @@
     <types>
         <members>Equipment_Loan__c.Account_Cannot_Change</members>
         <members>Equipment_Loan__c.Approval_Status_System_Only</members>
+        <members>Equipment_Loan__c.Return_Date_After_Start_Date</members>
+        <members>Equipment_Loan__c.Return_Date_Max_30_Days</members>
         <members>Equipment_Loan__c.Shipped_Requires_Approval</members>
         <name>ValidationRule</name>
     </types>
