@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>allInternalUsers</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>Account__c</field>
+        <field>Equipment_Name__c</field>
+        <field>Serial_Number__c</field>
+        <field>Start_Date__c</field>
+        <field>Return_Date__c</field>
+        <field>Sales_Rep__c</field>
+        <field>Status__c</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Sales_Manager__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <description>Single step: the loan&apos;s Sales Manager (the Sales Rep&apos;s manager) approves or rejects. Delegated approvers are not allowed (PO).</description>
+        <label>Manager Approval</label>
+        <name>Manager_Approval</name>
+    </approvalStep>
+    <description>US-113: every equipment loan must be approved by the Sales Rep&apos;s manager (Sales Manager) before it can be shipped. Locks the loan while pending; unlocks after approval, rejection or recall.</description>
+    <emailTemplate>Equipment_Loans/Equipment_Loan_Approval_Request</emailTemplate>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <formula>AND(ISPICKVAL(Status__c, &quot;Requested&quot;), OR(ISBLANK(TEXT(Approval_Status__c)), ISPICKVAL(Approval_Status__c, &quot;Not_Submitted&quot;), ISPICKVAL(Approval_Status__c, &quot;Rejected&quot;)), NOT(ISBLANK(Sales_Manager__c)))</formula>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>EL_Loan_Approved_Alert</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>EL_Set_Approval_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>false</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>EL_Loan_Rejected_Alert</name>
+            <type>Alert</type>
+        </action>
+        <action>
+            <name>EL_Set_Approval_Rejected</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalRejectionActions>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>EL_Set_Approval_Pending</name>
+            <type>FieldUpdate</type>
+        </action>
+    </initialSubmissionActions>
+    <label>Equipment Loan Manager Approval</label>
+    <processOrder>1</processOrder>
+    <recallActions>
+        <action>
+            <name>EL_Set_Approval_Not_Submitted</name>
+            <type>FieldUpdate</type>
+        </action>
+    </recallActions>
+    <recordEditability>AdminOrCurrentApprover</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>
