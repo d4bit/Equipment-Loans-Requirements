@@ -155,3 +155,14 @@ Declarative, no Apex.
 - Shared file `workflows/Equipment_Loan__c.workflow-meta.xml` also contains US-116's `EL_Return_Reminder_Alert`. Always edit it starting from the merged content.
 - Post-deploy: check that the process is Active, set Deliverability = All Email, and make sure reps have a User.ManagerId.
 - Open point: unlock after approval vs. the PO's "approved is locked" (#28).
+
+## Equipment Loan reporting (US-117)
+
+| Component | Details |
+|---|---|
+| ReportType `Equipment_Loans_with_Account` | Primary object `Equipment_Loan__c` only; Account fields come through the `Account__c` lookup (column token `Equipment_Loan__c$Account__c.Name`). Category `accounts`. |
+| Report folder `Equipment_Loan_Reports` ("Equipment Loans") | Shared View with All Internal Users (`AllInternalUsers` / `Organization`). Data is protected by object permissions and the Private OWD. |
+| Report `Open_Equipment_Loans_by_Equipment` | Summary report grouped by `Equipment_Name__c` Asc, sorted by `Return_Date__c` Asc. Filter: `Status__c` = Requested, Approved, Shipped. Date range: all time. Shows subtotals and a grand total. |
+| `Equipment_Loan_Manager` | Grants `RunReports` (US-117). `Equipment_Loan_User` does not grant it, and rep profiles are unchanged (PO decision). |
+
+There is no Apex or automation. If a new "open" status is added, update the report filter.

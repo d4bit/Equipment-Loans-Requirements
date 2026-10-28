@@ -119,3 +119,22 @@ If you are the **Sales Rep** on a loan, you get an email reminder the day before
 > - it was shipped after 08:00 on the day before it is due,
 > - no Sales Rep is set on the loan, or
 > - the Sales Rep's user is inactive.
+
+## Seeing which equipment is out (managers)
+
+Sales Managers can see all open equipment loans in one report.
+
+1. Open the **Reports** tab.
+2. Open the folder **Equipment Loans**.
+3. Click **Open Equipment Loans by Equipment**.
+
+What the report shows:
+- **Which loans:** only open loans, meaning those with status Requested, Approved or Shipped. Rejected, Cancelled and Returned loans are never shown.
+- **Grouping:** loans are grouped by equipment name (A→Z). Each group shows how many loans it contains, and the report shows a grand total.
+- **Columns:** Loan Number, Account Name, Return Date, Start Date, Serial Number, Status, Approval Status and Sales Rep.
+- **Order:** inside each group, the loan with the earliest return date comes first.
+- **Coverage:** managers see all loans from every rep and every account.
+
+**Tip:** you can't change the shared report. To build your own version, use **Save As** and save it in your private folder.
+
+**Note:** only managers can run this report. Sales reps don't have access to reports.
