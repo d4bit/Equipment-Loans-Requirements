@@ -1,0 +1,13 @@
+Hello {!Equipment_Loan__c.Sales_Rep__c},
+
+The following demo equipment loan is due back tomorrow:
+
+Loan: {!Equipment_Loan__c.Name}
+Account: {!Equipment_Loan__c.Account__c}
+Equipment: {!Equipment_Loan__c.Equipment_Name__c}
+Serial number: {!Equipment_Loan__c.Serial_Number__c}
+Return date: {!Equipment_Loan__c.Return_Date__c}
+
+Please make sure the hospital returns the equipment on time and update the loan once it is back.
+
+Open the loan: {!Equipment_Loan__c.Link}
