@@ -25,17 +25,22 @@ A demo loan can last at most 30 days.
 
 What you can do depends on the access your administrator gives you.
 
+**Who can see a loan:** only the loan's **Sales Rep** (its owner), sales managers, and the people above the Sales Rep in the role hierarchy. Owning the account does not give you access: if another rep records a loan on your account, you won't see it.
+
 | Action | Sales rep | Sales manager |
 |---|---|---|
-| Create a loan and edit its details (Equipment Name, dates, Status) | Yes | Yes |
-| See every loan in the company | Only the loans you have access to | Yes |
-| Change **Sales Rep** or **Sales Manager** | No (read-only) | Yes |
+| Create a loan | Yes | Yes |
+| Edit loan details (Equipment Name, dates, Status) | Only your own loans | No (view only) |
+| See loans | Only your own loans | All loans |
+| Change **Sales Rep** or **Sales Manager** | No (read-only) | Only when creating a loan |
+| Approve or reject a loan | No | Yes, through the approval request |
 | Change **Approval Status** | No | No (the approval process updates it) |
 | Delete a loan | No | No |
 
 **Tips**
 - If you can't find the **Equipment Loans** tab, or the Equipment Loans list on an account, you don't have access yet. Ask your Salesforce administrator.
-- When a manager changes the **Sales Rep**, the loan's owner changes to that person automatically.
+- An empty Equipment Loans list on your account doesn't mean there are no loans. Other reps' loans are hidden from you.
+- To move a loan to a different Sales Rep or to delete it, ask your Salesforce administrator.
 
 ## Shipping a loan: manager approval required
 

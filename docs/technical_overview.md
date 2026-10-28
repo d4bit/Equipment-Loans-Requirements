@@ -56,19 +56,27 @@ The 30-day maximum is inclusive (PO confirmed). The two date rules are mutually 
 
 ## Equipment Loan access control (US-118)
 
+Updated by US-119: loan visibility comes from loan ownership only. Managers are read-only.
+
 | Component | Type | Settings |
 |---|---|---|
+| `Equipment_Loan__c` sharing | OWD | Internal Private, external Private; Grant Access Using Hierarchies on (US-109) |
 | `Equipment_Loan_User` | Permission set (no license) | Equipment_Loan__c Read/Create/Edit; Account Read and Contact Read; `Approval_Status__c`, `Sales_Rep__c` and `Sales_Manager__c` Read only |
-| `Equipment_Loan_Manager` | Permission set (no license) | Same as User + View All; `Sales_Rep__c` and `Sales_Manager__c` Read + Edit; `Approval_Status__c` Read only |
-| `Equipment_Loan_Managers` | Public group | Members are the managers; doesIncludeBosses = false |
-| `Equipment_Loan__c.Equipment_Loan_Managers_Edit` | Owner-based sharing rule | All Internal Users → Equipment_Loan_Managers, Edit |
+| `Equipment_Loan_Manager` | Permission set (no license) | Equipment_Loan__c Read/Create + View All, **no Edit** (US-119); `Sales_Rep__c` and `Sales_Manager__c` Read + Edit (effective only on create); `Approval_Status__c` Read only |
+| `Equipment_Loan_Managers` | Public group | Unused since US-119 (cleanup candidate) |
+| Sharing rules | – | None. `Equipment_Loan_Managers_Edit` was removed in US-119 |
 
+| Who | Access |
+|---|---|
+| Owner (= Sales Rep, set by the US-111 flow) | Read/Edit, no Delete |
+| Managers | Read all (View All). They approve without Edit |
+| Owner's role-hierarchy superiors | Same as the owner, if they have a perm set that grants Edit |
+| Admins | Full (only they reassign and delete loans) |
+
+- There is no account-owner sharing, no `Equipment_Loan__Share` logic and no account-transfer automation.
 - No business user has Delete or Modify All.
-- Required fields aren't listed in the permission sets; they are reachable through object access.
 - Contact Read is required alongside Account Read because Person Accounts are enabled.
-- Tab visibility will be added by US-112.
-- The sharing rule needs OWD Private (set in US-109).
-- **Post-deploy:** assign the permission sets and group membership from Lumen's lists of reps and managers. Managers get `Equipment_Loan_Manager` only.
+- **Post-deploy:** assign the permission sets from Lumen's lists of reps and managers. Managers get `Equipment_Loan_Manager` only. No group membership is needed. In any org that already has `Equipment_Loan_Managers_Edit`, deploy `docs/stories/US-119/manifest/destructiveChangesPost.xml`.
 
 ## Equipment Loan approval guards (US-114)
 

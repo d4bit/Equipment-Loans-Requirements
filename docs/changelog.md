@@ -2,6 +2,7 @@
 
 ## Changes
 
+- 2025 — US-119 Loan visibility: loans are visible only to their owner (Sales Rep), managers (read-only, View All) and role-hierarchy superiors; the manager edit sharing rule was removed.
 - 2025 — US-113 Manager approval process for equipment loans: loans are submitted to the Sales Manager for a one-step approval; the loan is locked while pending; the rep is emailed the approve/reject decision.
 - 2025 — US-116 Daily return reminder email to sales rep: daily 08:00 Pacific email to the Sales Rep of Shipped loans due back tomorrow, logged as a completed email activity.
 - 2025 — US-112 Equipment Loan user interface: Equipment Loans tab (App Launcher), Open Loans / My Loans list views, record page with Status path and compact layout, and an Account related list (added manually post-deploy).
