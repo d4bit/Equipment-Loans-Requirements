@@ -40,6 +40,8 @@
     </types>
     <types>
         <members>Equipment_Loan__c.Account_Cannot_Change</members>
+        <members>Equipment_Loan__c.Return_Date_After_Start_Date</members>
+        <members>Equipment_Loan__c.Return_Date_Max_30_Days</members>
         <name>ValidationRule</name>
     </types>
     <version>62.0</version>
