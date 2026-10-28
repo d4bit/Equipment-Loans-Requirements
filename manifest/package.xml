@@ -78,7 +78,7 @@
         <name>PermissionSet</name>
     </types>
     <types>
-        <members>Equipment_Loan_Reports</members>
+        <members>Equipment_Loan_Reports/</members>
         <members>Equipment_Loan_Reports/Open_Equipment_Loans_by_Equipment</members>
         <name>Report</name>
     </types>
@@ -87,8 +87,8 @@
         <name>ReportType</name>
     </types>
     <types>
-        <members>Equipment_Loan__c.Equipment_Loan_Managers_Edit</members>
-        <name>SharingOwnerRule</name>
+        <members>Equipment_Loan__c</members>
+        <name>SharingRules</name>
     </types>
     <types>
         <members>Equipment_Loan__c.Account_Cannot_Change</members>
