@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Only needed in an org where US-118 already deployed the manager edit sharing rule.
+     SDO production does not have it yet (release 1.0.0 not deployed), so it is not needed there. -->
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Equipment_Loan__c.Equipment_Loan_Managers_Edit</members>
+        <name>SharingOwnerRule</name>
+    </types>
+    <version>62.0</version>
+</Package>
