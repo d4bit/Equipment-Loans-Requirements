@@ -27,9 +27,6 @@
     </types>
     <types>
         <members>Equipment_Loans</members>
-        <name>EmailFolder</name>
-    </types>
-    <types>
         <members>Equipment_Loans/Equipment_Loan_Return_Reminder</members>
         <name>EmailTemplate</name>
     </types>
@@ -73,10 +70,18 @@
         <name>SharingOwnerRule</name>
     </types>
     <types>
+        <members>Equipment_Loan__c</members>
+        <name>SharingRules</name>
+    </types>
+    <types>
         <members>Equipment_Loan__c.Account_Cannot_Change</members>
         <members>Equipment_Loan__c.Return_Date_After_Start_Date</members>
         <members>Equipment_Loan__c.Return_Date_Max_30_Days</members>
         <name>ValidationRule</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c</members>
+        <name>Workflow</name>
     </types>
     <types>
         <members>Equipment_Loan__c.EL_Return_Reminder_Alert</members>
