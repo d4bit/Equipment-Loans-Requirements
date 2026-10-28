@@ -24,7 +24,7 @@
     </alerts>
     <alerts>
         <fullName>EL_Return_Reminder_Alert</fullName>
-        <description>US-116: reminds the Sales Rep one day before the return date of a shipped equipment loan.</description>
+        <description>Return reminder to the loan&apos;s Sales Rep, the day before Return Date (US-116). Sent from the default workflow user (PO decision).</description>
         <protected>false</protected>
         <recipients>
             <field>Sales_Rep__c</field>

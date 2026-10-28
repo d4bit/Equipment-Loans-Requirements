@@ -5,6 +5,10 @@
         <name>ApprovalProcess</name>
     </types>
     <types>
+        <members>Equipment_Loan__c.Equipment_Loan_Compact</members>
+        <name>CompactLayout</name>
+    </types>
+    <types>
         <members>Equipment_Loan__c.Account__c</members>
         <members>Equipment_Loan__c.Approval_Status__c</members>
         <members>Equipment_Loan__c.Equipment_Name__c</members>
@@ -22,12 +26,20 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>Equipment_Loan__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
         <members>Equipment_Loans</members>
         <members>Equipment_Loans/Equipment_Loan_Approval_Request</members>
         <members>Equipment_Loans/Equipment_Loan_Approved</members>
         <members>Equipment_Loans/Equipment_Loan_Rejected</members>
         <members>Equipment_Loans/Equipment_Loan_Return_Reminder</members>
         <name>EmailTemplate</name>
+    </types>
+    <types>
+        <members>Equipment_Loan_Record_Page</members>
+        <name>FlexiPage</name>
     </types>
     <types>
         <members>Equipment_Loan_Before_Save_Set_Rep_Manager</members>
@@ -43,6 +55,19 @@
         <name>Group</name>
     </types>
     <types>
+        <members>Equipment_Loan__c-Equipment Loan Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c.My_Loans</members>
+        <members>Equipment_Loan__c.Open_Loans</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>Equipment_Loan_Status_Path</members>
+        <name>PathAssistant</name>
+    </types>
+    <types>
         <members>Equipment_Loan_Manager</members>
         <members>Equipment_Loan_User</members>
         <name>PermissionSet</name>
@@ -52,10 +77,18 @@
         <name>SharingOwnerRule</name>
     </types>
     <types>
+        <members>Equipment_Loan__c</members>
+        <name>SharingRules</name>
+    </types>
+    <types>
         <members>Equipment_Loan__c.Account_Cannot_Change</members>
         <members>Equipment_Loan__c.Return_Date_After_Start_Date</members>
         <members>Equipment_Loan__c.Return_Date_Max_30_Days</members>
         <name>ValidationRule</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c</members>
+        <name>Workflow</name>
     </types>
     <types>
         <members>Equipment_Loan__c.EL_Loan_Approved_Alert</members>
