@@ -1,0 +1,14 @@
+Hello {!Equipment_Loan__c.Sales_Rep__c},
+
+Your equipment loan {!Equipment_Loan__c.Name} has been approved by your manager.
+
+Loan Number: {!Equipment_Loan__c.Name}
+Account: {!Equipment_Loan__c.Account__c}
+Equipment: {!Equipment_Loan__c.Equipment_Name__c}
+Serial Number: {!Equipment_Loan__c.Serial_Number__c}
+Start Date: {!Equipment_Loan__c.Start_Date__c}
+Return Date: {!Equipment_Loan__c.Return_Date__c}
+
+You can now set the status to Shipped.
+
+Open the loan: {!Equipment_Loan__c.Link}

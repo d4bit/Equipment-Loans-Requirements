@@ -25,25 +25,49 @@ A demo loan can last at most 30 days.
 
 What you can do depends on the access your administrator gives you.
 
+**Who can see a loan:** only the loan's **Sales Rep** (its owner), sales managers, and the people above the Sales Rep in the role hierarchy. Owning the account does not give you access: if another rep records a loan on your account, you won't see it.
+
 | Action | Sales rep | Sales manager |
 |---|---|---|
-| Create a loan and edit its details (Equipment Name, dates, Status) | Yes | Yes |
-| See every loan in the company | Only the loans you have access to | Yes |
-| Change **Sales Rep** or **Sales Manager** | No (read-only) | Yes |
+| Create a loan | Yes | Yes |
+| Edit loan details (Equipment Name, dates, Status) | Only your own loans | No (view only) |
+| See loans | Only your own loans | All loans |
+| Change **Sales Rep** or **Sales Manager** | No (read-only) | Only when creating a loan |
+| Approve or reject a loan | No | Yes, through the approval request |
 | Change **Approval Status** | No | No (the approval process updates it) |
 | Delete a loan | No | No |
 
 **Tips**
 - If you can't find the **Equipment Loans** tab, or the Equipment Loans list on an account, you don't have access yet. Ask your Salesforce administrator.
-- When a manager changes the **Sales Rep**, the loan's owner changes to that person automatically.
+- An empty Equipment Loans list on your account doesn't mean there are no loans. Other reps' loans are hidden from you.
+- To move a loan to a different Sales Rep or to delete it, ask your Salesforce administrator.
 
 ## Shipping a loan: manager approval required
 
-Before a loan can be shipped, the sales rep's manager has to approve it. The approval goes to the person shown in **Sales Manager** on the loan. That field is filled from the Manager on the sales rep's user record when the loan is created or when its Sales Rep changes.
+Every loan must be approved by your manager (the loan's **Sales Manager**) before you can set its **Status** to **Shipped**. This rule applies to everyone, including managers and administrators.
 
-> **Warning:** If **Sales Manager** is empty, the approval has no one to go to. Ask your administrator to set your Manager on your user record. The administrator then re-saves the loan's Sales Rep to fill the field.
+**To submit a loan for approval:**
+1. Open a loan with **Status** = Requested. **Sales Manager** must be filled in.
+2. Click **Submit for Approval** and add a comment if you want.
+3. **Approval Status** changes to **Pending** and your manager receives the email "Equipment loan EL-xxxxx needs your approval". While the request is pending, you cannot edit the loan.
 
-> **Note:** Only administrators can delete loans.
+**For managers – to approve or reject:**
+1. Open the link in the email, or open the loan and go to the **Approval History** list.
+2. Click **Approve** or **Reject**. When you reject, add a comment explaining why. The rep receives your comment.
+
+**What happens next:**
+- **Approved:** **Approval Status** = Approved and **Status** stays Requested. You get the email "Equipment loan EL-xxxxx approved". Open the loan, set **Status** to **Shipped** and save.
+- **Rejected:** **Approval Status** = Rejected. You get the email "Equipment loan EL-xxxxx rejected" with your manager's comment. Fix the loan and click **Submit for Approval** again.
+- **Recall:** to withdraw a pending request, click **Recall** in **Approval History**. **Approval Status** goes back to Not Submitted and you can edit the loan again.
+
+**What you may see:**
+- "…does not meet the entry criteria or initial submitters of any active approval processes…" appears if the loan is already Pending or Approved, is not in Status Requested, or has no **Sales Manager**. If your loan has no Sales Manager, ask your administrator to set your manager on your user record.
+- "This loan must be approved by your manager before it can be shipped." appears if you try to set Shipped before approval, or if you try to create a new loan directly as Shipped.
+- "Approval Status is set by the approval process and cannot be changed manually." appears if you try to edit **Approval Status** yourself.
+
+**Tips:**
+- Your manager's delegated approver cannot approve loans. Only your own manager can.
+- An approved loan does not need to be approved again. If dates or equipment must change after approval, ask an administrator.
 
 ## Finding and opening equipment loans
 
@@ -68,3 +92,49 @@ The related list shows Loan Number, Equipment Name, Serial Number, Start Date, R
 - Related lists: **Approval History**, **Activity History** and **Equipment Loan History** (field changes).
 
 > **Note:** Approval Status can never be edited by hand. Reps can't edit Sales Rep or Sales Manager either. Loans have no Change Owner action.
+
+## Return reminder emails
+
+If you are the **Sales Rep** on a loan, you get an email reminder the day before the equipment is due back.
+
+**When you get it**
+- Every day at 08:00 Pacific time, including weekends and holidays.
+- Only for loans with Status **Shipped** whose **Return Date** is tomorrow.
+
+**What it contains**
+- Subject: "Equipment loan {Loan Number} is due back tomorrow".
+- The account, equipment, serial number and return date.
+- A link that opens the loan.
+
+**What to do**
+1. Open the loan from the link.
+2. Contact the hospital so the equipment is returned on time.
+
+**Where to find past reminders:** each reminder appears on the loan's **Activity** timeline as a completed email activity, assigned to you.
+
+> **Tip:** If the return date changes, the reminder moves with it. You get the reminder the day before the new date.
+
+> **Note:** You get no reminder if:
+> - the loan is not Shipped,
+> - it was shipped after 08:00 on the day before it is due,
+> - no Sales Rep is set on the loan, or
+> - the Sales Rep's user is inactive.
+
+## Seeing which equipment is out (managers)
+
+Sales Managers can see all open equipment loans in one report.
+
+1. Open the **Reports** tab.
+2. Open the folder **Equipment Loans**.
+3. Click **Open Equipment Loans by Equipment**.
+
+What the report shows:
+- **Which loans:** only open loans, meaning those with status Requested, Approved or Shipped. Rejected, Cancelled and Returned loans are never shown.
+- **Grouping:** loans are grouped by equipment name (A→Z). Each group shows how many loans it contains, and the report shows a grand total.
+- **Columns:** Loan Number, Account Name, Return Date, Start Date, Serial Number, Status, Approval Status and Sales Rep.
+- **Order:** inside each group, the loan with the earliest return date comes first.
+- **Coverage:** managers see all loans from every rep and every account.
+
+**Tip:** you can't change the shared report. To build your own version, use **Save As** and save it in your private folder.
+
+**Note:** only managers can run this report. Sales reps don't have access to reports.

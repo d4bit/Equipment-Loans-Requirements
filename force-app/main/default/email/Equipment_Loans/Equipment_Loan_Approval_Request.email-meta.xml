@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>US-113: sent to the Sales Manager when an equipment loan is submitted for approval (approval assignment template).</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Equipment Loan Approval Request</name>
+    <style>none</style>
+    <subject>Equipment loan {!Equipment_Loan__c.Name} needs your approval</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

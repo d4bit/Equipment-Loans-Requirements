@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>Equipment_Loan__c.Equipment_Loan_Manager_Approval</members>
+        <name>ApprovalProcess</name>
+    </types>
+    <types>
         <members>Equipment_Loan__c.Equipment_Loan_Compact</members>
         <name>CompactLayout</name>
     </types>
@@ -22,8 +26,20 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>Bypass_Equipment_Loan_Validation</members>
+        <name>CustomPermission</name>
+    </types>
+    <types>
         <members>Equipment_Loan__c</members>
         <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Equipment_Loans</members>
+        <members>Equipment_Loans/Equipment_Loan_Approval_Request</members>
+        <members>Equipment_Loans/Equipment_Loan_Approved</members>
+        <members>Equipment_Loans/Equipment_Loan_Rejected</members>
+        <members>Equipment_Loans/Equipment_Loan_Return_Reminder</members>
+        <name>EmailTemplate</name>
     </types>
     <types>
         <members>Equipment_Loan_Record_Page</members>
@@ -31,6 +47,7 @@
     </types>
     <types>
         <members>Equipment_Loan_Before_Save_Set_Rep_Manager</members>
+        <members>Equipment_Loan_Return_Reminder</members>
         <name>Flow</name>
     </types>
     <types>
@@ -55,6 +72,7 @@
         <name>PathAssistant</name>
     </types>
     <types>
+        <members>Equipment_Loan_Data_Migration</members>
         <members>Equipment_Loan_Manager</members>
         <members>Equipment_Loan_User</members>
         <name>PermissionSet</name>
@@ -74,9 +92,28 @@
     </types>
     <types>
         <members>Equipment_Loan__c.Account_Cannot_Change</members>
+        <members>Equipment_Loan__c.Approval_Status_System_Only</members>
         <members>Equipment_Loan__c.Return_Date_After_Start_Date</members>
         <members>Equipment_Loan__c.Return_Date_Max_30_Days</members>
+        <members>Equipment_Loan__c.Shipped_Requires_Approval</members>
         <name>ValidationRule</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c</members>
+        <name>Workflow</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c.EL_Loan_Approved_Alert</members>
+        <members>Equipment_Loan__c.EL_Loan_Rejected_Alert</members>
+        <members>Equipment_Loan__c.EL_Return_Reminder_Alert</members>
+        <name>WorkflowAlert</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c.EL_Set_Approval_Approved</members>
+        <members>Equipment_Loan__c.EL_Set_Approval_Not_Submitted</members>
+        <members>Equipment_Loan__c.EL_Set_Approval_Pending</members>
+        <members>Equipment_Loan__c.EL_Set_Approval_Rejected</members>
+        <name>WorkflowFieldUpdate</name>
     </types>
     <version>62.0</version>
 </Package>
