@@ -80,3 +80,7 @@ The 30-day maximum is inclusive (PO confirmed). The two date rules are mutually 
 | PermissionSet | `Equipment_Loan_Data_Migration` | Grants only the custom permission. Not assigned by default. Assign only for the US-120 load window, then remove. |
 
 Deploy together with US-109.
+
+## User manager prerequisite (TK-115)
+
+TK-115 was cancelled by the PO. The project doesn't maintain User.ManagerId; the admin does that outside the project. Sales_Manager__c is set from the Sales Rep's ManagerId only when a loan is created or its Sales Rep changes (US-111). If the rep has no manager, the field stays empty and the approval can't route. Changing a user's manager doesn't recalculate existing loans: an admin re-saves the loan's Sales Rep. Only admins may delete loans (the US-118 permission sets have allowDelete=false).
