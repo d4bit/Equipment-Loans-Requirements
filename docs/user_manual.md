@@ -39,11 +39,17 @@ What you can do depends on the access your administrator gives you.
 
 ## Shipping a loan: manager approval required
 
-Before a loan can be shipped, the sales rep's manager has to approve it. The approval goes to the person shown in **Sales Manager** on the loan. That field is filled from the Manager on the sales rep's user record when the loan is created or when its Sales Rep changes.
+You can set a loan's **Status** to **Shipped** only after your manager has approved it (**Approval Status** = Approved). This applies to everyone, including managers and administrators.
 
-> **Warning:** If **Sales Manager** is empty, the approval has no one to go to. Ask your administrator to set your Manager on your user record. The administrator then re-saves the loan's Sales Rep to fill the field.
+**To ship a loan:**
+1. Submit the loan for approval and wait for your manager to approve it.
+2. Open the loan, set **Status** to **Shipped** and save.
 
-> **Note:** Only administrators can delete loans.
+**What you may see:**
+- "This loan must be approved by your manager before it can be shipped." appears if the loan is Not Submitted, Pending or Rejected. It also appears if you try to create a new loan directly as Shipped.
+- "Approval Status is set by the approval process and cannot be changed manually." appears if you try to edit **Approval Status** yourself. Only the approval actions (submit, approve, reject, recall) change it.
+
+**Tip:** Once a loan is Shipped and approved, you can still edit its other fields, such as **Serial Number**.
 
 ## Finding and opening equipment loans
 

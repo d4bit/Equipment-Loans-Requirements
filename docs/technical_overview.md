@@ -72,14 +72,17 @@ The 30-day maximum is inclusive (PO confirmed). The two date rules are mutually 
 
 ## Equipment Loan approval guards (US-114)
 
-| Metadata | API Name | Notes |
+| Component | Type | Behaviour |
 |---|---|---|
-| ValidationRule | `Equipment_Loan__c.Shipped_Requires_Approval` | Error on `Status__c` when Status = `Shipped` on create or Status change and `Approval_Status__c` ≠ `Approved`. |
-| ValidationRule | `Equipment_Loan__c.Approval_Status_System_Only` | Error on `Approval_Status__c` when it is set on create to anything other than blank/`Not_Submitted`, or when it changes on update. Approval process field updates don't re-run validation rules, so US-113 is unaffected. |
-| CustomPermission | `Bypass_Equipment_Loan_Validation` | Both rules check `NOT($Permission.Bypass_Equipment_Loan_Validation)`. US-110 date rules intentionally don't check it. |
-| PermissionSet | `Equipment_Loan_Data_Migration` | Grants only the custom permission. Not assigned by default. Assign only for the US-120 load window, then remove. |
+| `Shipped_Requires_Approval` | Validation rule (error on `Status__c`) | Blocks `Status__c` = `Shipped` on insert or when Status changes, unless `Approval_Status__c` = `Approved` |
+| `Approval_Status_System_Only` | Validation rule (error on `Approval_Status__c`) | On insert, allows only a blank or `Not_Submitted` Approval Status. On update, blocks any change to Approval Status |
+| `Bypass_Equipment_Loan_Validation` | Custom permission | Both rules check `NOT($Permission.Bypass_Equipment_Loan_Validation)` |
+| `Equipment_Loan_Data_Migration` | Permission set | Grants only the custom permission. Unassigned by default; US-120 is cancelled |
 
-Deploy together with US-109.
+Notes:
+- Approval process field updates (US-113) don't re-run validation rules, so the approval actions are not blocked. Verify this in UAT.
+- The US-110 date rules deliberately ignore the bypass permission.
+- No Apex is involved.
 
 ## User manager prerequisite (TK-115)
 
