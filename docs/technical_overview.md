@@ -69,3 +69,14 @@ The 30-day maximum is inclusive (PO confirmed). The two date rules are mutually 
 - Tab visibility will be added by US-112.
 - The sharing rule needs OWD Private (set in US-109).
 - **Post-deploy:** assign the permission sets and group membership from Lumen's lists of reps and managers. Managers get `Equipment_Loan_Manager` only.
+
+## Equipment Loan approval guards (US-114)
+
+| Metadata | API Name | Notes |
+|---|---|---|
+| ValidationRule | `Equipment_Loan__c.Shipped_Requires_Approval` | Error on `Status__c` when Status = `Shipped` on create or Status change and `Approval_Status__c` ≠ `Approved`. |
+| ValidationRule | `Equipment_Loan__c.Approval_Status_System_Only` | Error on `Approval_Status__c` when it is set on create to anything other than blank/`Not_Submitted`, or when it changes on update. Approval process field updates don't re-run validation rules, so US-113 is unaffected. |
+| CustomPermission | `Bypass_Equipment_Loan_Validation` | Both rules check `NOT($Permission.Bypass_Equipment_Loan_Validation)`. US-110 date rules intentionally don't check it. |
+| PermissionSet | `Equipment_Loan_Data_Migration` | Grants only the custom permission. Not assigned by default. Assign only for the US-120 load window, then remove. |
+
+Deploy together with US-109.

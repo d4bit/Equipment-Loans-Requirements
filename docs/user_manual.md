@@ -36,3 +36,18 @@ What you can do depends on the access your administrator gives you.
 **Tips**
 - If you can't find the **Equipment Loans** tab, or the Equipment Loans list on an account, you don't have access yet. Ask your Salesforce administrator.
 - When a manager changes the **Sales Rep**, the loan's owner changes to that person automatically.
+
+## Shipping a loan: manager approval required
+
+A loan can be marked **Shipped** only after your manager has approved it.
+
+1. Submit the loan for approval and wait until **Approval Status** shows **Approved**.
+2. Open the loan, set **Status** to **Shipped**, and save.
+
+If the loan is not approved (Not Submitted, Pending or Rejected), saving shows: *"This loan must be approved by your manager before it can be shipped."* This applies to everyone, including managers and administrators.
+
+- You cannot create a new loan directly as **Shipped**.
+- **Approval Status** is set only by the approval process. Changing it by hand shows: *"Approval Status is set by the approval process and cannot be changed manually."*
+- Other edits to a shipped loan (for example the serial number) still save normally.
+
+> **Note:** The only exception is a temporary data-migration permission, which is used only while loading historical loans.
