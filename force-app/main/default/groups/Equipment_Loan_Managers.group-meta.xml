@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Group xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Sales managers who may edit every Equipment Loan (via sharing rule Equipment_Loan_Managers_Edit). Members must also hold permission set Equipment_Loan_Manager. Maintained post-deploy (US-118).</description>
+    <doesIncludeBosses>false</doesIncludeBosses>
+    <name>Equipment Loan Managers</name>
+</Group>

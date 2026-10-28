@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Equipment_Loan_Managers</members>
+        <name>Group</name>
+    </types>
+    <types>
+        <members>Equipment_Loan_Manager</members>
+        <members>Equipment_Loan_User</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c.Equipment_Loan_Managers_Edit</members>
+        <name>SharingOwnerRule</name>
+    </types>
+    <version>62.0</version>
+</Package>

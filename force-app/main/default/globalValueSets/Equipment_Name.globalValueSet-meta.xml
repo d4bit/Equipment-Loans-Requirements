@@ -28,4 +28,5 @@
     <description>Demo equipment models that can be loaned to customers (Equipment Loan). Admins can add values.</description>
     <masterLabel>Equipment Name</masterLabel>
     <sorted>false</sorted>
+
 </GlobalValueSet>

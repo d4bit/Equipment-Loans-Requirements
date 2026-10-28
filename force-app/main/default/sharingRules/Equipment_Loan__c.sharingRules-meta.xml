@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>Equipment_Loan_Managers_Edit</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Gives Equipment Loan managers Read/Write on every loan (owner is always an internal Sales Rep). Replaces Modify All, which would also grant delete and transfer. US-118 / FT-108.</description>
+        <label>Equipment Loan Managers - Edit</label>
+        <sharedTo>
+            <group>Equipment_Loan_Managers</group>
+        </sharedTo>
+        <sharedFrom>
+            <allInternalUsers></allInternalUsers>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

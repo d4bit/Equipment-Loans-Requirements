@@ -21,7 +21,7 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Equipment Loans</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts></searchLayouts>
     <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
