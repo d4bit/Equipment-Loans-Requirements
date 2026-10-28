@@ -26,6 +26,19 @@
         <name>GlobalValueSet</name>
     </types>
     <types>
+        <members>Equipment_Loan_Managers</members>
+        <name>Group</name>
+    </types>
+    <types>
+        <members>Equipment_Loan_Manager</members>
+        <members>Equipment_Loan_User</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>Equipment_Loan__c.Equipment_Loan_Managers_Edit</members>
+        <name>SharingOwnerRule</name>
+    </types>
+    <types>
         <members>Equipment_Loan__c.Account_Cannot_Change</members>
         <name>ValidationRule</name>
     </types>
