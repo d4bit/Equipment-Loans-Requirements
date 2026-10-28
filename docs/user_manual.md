@@ -68,3 +68,30 @@ The related list shows Loan Number, Equipment Name, Serial Number, Start Date, R
 - Related lists: **Approval History**, **Activity History** and **Equipment Loan History** (field changes).
 
 > **Note:** Approval Status can never be edited by hand. Reps can't edit Sales Rep or Sales Manager either. Loans have no Change Owner action.
+
+## Return reminder emails
+
+If you are the **Sales Rep** on a loan, you get an email reminder the day before the equipment is due back.
+
+**When you get it**
+- Every day at 08:00 Pacific time, including weekends and holidays.
+- Only for loans with Status **Shipped** whose **Return Date** is tomorrow.
+
+**What it contains**
+- Subject: "Equipment loan {Loan Number} is due back tomorrow".
+- The account, equipment, serial number and return date.
+- A link that opens the loan.
+
+**What to do**
+1. Open the loan from the link.
+2. Contact the hospital so the equipment is returned on time.
+
+**Where to find past reminders:** each reminder appears on the loan's **Activity** timeline as a completed email activity, assigned to you.
+
+> **Tip:** If the return date changes, the reminder moves with it. You get the reminder the day before the new date.
+
+> **Note:** You get no reminder if:
+> - the loan is not Shipped,
+> - it was shipped after 08:00 on the day before it is due,
+> - no Sales Rep is set on the loan, or
+> - the Sales Rep's user is inactive.
