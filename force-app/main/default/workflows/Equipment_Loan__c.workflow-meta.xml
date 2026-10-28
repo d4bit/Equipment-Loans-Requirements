@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>EL_Loan_Approved_Alert</fullName>
+        <description>US-113: notifies the Sales Rep that the equipment loan was approved.</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Sales_Rep__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Equipment_Loans/Equipment_Loan_Approved</template>
+    </alerts>
+    <alerts>
+        <fullName>EL_Loan_Rejected_Alert</fullName>
+        <description>US-113: notifies the Sales Rep that the equipment loan was rejected, with the manager&apos;s comments.</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Sales_Rep__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Equipment_Loans/Equipment_Loan_Rejected</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>EL_Set_Approval_Approved</fullName>
+        <description>US-113: final approval sets Approval Status to Approved.</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>EL Set Approval Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>EL_Set_Approval_Not_Submitted</fullName>
+        <description>US-113: recall sets Approval Status back to Not Submitted.</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Not_Submitted</literalValue>
+        <name>EL Set Approval Not Submitted</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>EL_Set_Approval_Pending</fullName>
+        <description>US-113: initial submission sets Approval Status to Pending.</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Pending</literalValue>
+        <name>EL Set Approval Pending</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>EL_Set_Approval_Rejected</fullName>
+        <description>US-113: final rejection sets Approval Status to Rejected.</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>EL Set Approval Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+</Workflow>

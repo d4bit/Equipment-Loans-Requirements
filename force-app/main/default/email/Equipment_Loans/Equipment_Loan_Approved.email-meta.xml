@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>US-113: sent to the Sales Rep when the manager approves an equipment loan (final approval email alert).</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Equipment Loan Approved</name>
+    <style>none</style>
+    <subject>Equipment loan {!Equipment_Loan__c.Name} approved</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
