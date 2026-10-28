@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Return_Date_Max_30_Days</fullName>
+    <active>true</active>
+    <description>US-110 – loan policy §2.1. Return Date may be at most 30 calendar days after Start Date (exactly 30 days allowed, confirmed by PO). Applies on create and edit, all users and API loads.</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Start_Date__c)),
+    NOT(ISBLANK(Return_Date__c)),
+    Return_Date__c - Start_Date__c &gt; 30
+)</errorConditionFormula>
+    <errorDisplayField>Return_Date__c</errorDisplayField>
+    <errorMessage>Return Date must be no more than 30 days after Start Date.</errorMessage>
+</ValidationRule>
