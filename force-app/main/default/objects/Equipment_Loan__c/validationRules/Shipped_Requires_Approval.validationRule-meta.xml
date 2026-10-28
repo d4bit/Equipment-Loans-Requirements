@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Shipped_Requires_Approval</fullName>
+    <active>true</active>
+    <description>US-114: Status can be set to Shipped (create or change) only when Approval Status = Approved. All users; bypass only via custom permission Bypass_Equipment_Loan_Validation (data migration).</description>
+    <errorConditionFormula>AND(
+    NOT($Permission.Bypass_Equipment_Loan_Validation),
+    ISPICKVAL(Status__c, &quot;Shipped&quot;),
+    OR(ISNEW(), ISCHANGED(Status__c)),
+    NOT(ISPICKVAL(Approval_Status__c, &quot;Approved&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>This loan must be approved by your manager before it can be shipped.</errorMessage>
+</ValidationRule>

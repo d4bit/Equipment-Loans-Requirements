@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Skips the Shipped/Approval Status guards on Equipment Loan. Data migration only.</description>
+    <isLicensed>false</isLicensed>
+    <label>Bypass Equipment Loan Validation</label>
+</CustomPermission>
