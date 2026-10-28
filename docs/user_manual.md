@@ -36,3 +36,35 @@ What you can do depends on the access your administrator gives you.
 **Tips**
 - If you can't find the **Equipment Loans** tab, or the Equipment Loans list on an account, you don't have access yet. Ask your Salesforce administrator.
 - When a manager changes the **Sales Rep**, the loan's owner changes to that person automatically.
+
+## Shipping a loan: manager approval required
+
+Before a loan can be shipped, the sales rep's manager has to approve it. The approval goes to the person shown in **Sales Manager** on the loan. That field is filled from the Manager on the sales rep's user record when the loan is created or when its Sales Rep changes.
+
+> **Warning:** If **Sales Manager** is empty, the approval has no one to go to. Ask your administrator to set your Manager on your user record. The administrator then re-saves the loan's Sales Rep to fill the field.
+
+> **Note:** Only administrators can delete loans.
+
+## Finding and opening equipment loans
+
+**Open the Equipment Loans tab**
+1. Click the App Launcher (the grid icon, top left).
+2. Search for **Equipment Loans** and open it. The tab is not in any app menu bar. If you can't find it, ask your admin for the Equipment Loan permission set.
+3. Pick a list view:
+   - **Open Loans**: every loan you can see with Status Requested, Approved or Shipped.
+   - **My Loans**: loans you own, which means loans where you are the Sales Rep.
+
+**Create a loan from a hospital account**
+1. Open the account.
+2. In the **Equipment Loans** related list, click **New**. The Account is already filled in.
+3. Fill in Equipment Name, Serial Number, Start Date and Return Date, then click **Save**.
+
+The related list shows Loan Number, Equipment Name, Serial Number, Start Date, Return Date and Status, with the latest return dates first.
+
+**Reading a loan record**
+- The top panel shows Loan Number, Account, Equipment Name, Status and Return Date.
+- The **path** below the panel shows the loan stage: Requested → Approved → Shipped → Returned, plus Rejected and Cancelled. Rejected and Cancelled appear as steps on the path even though they are end states.
+- **Loan Details** holds the loan data. **Approval** shows Approval Status, Sales Rep and Sales Manager.
+- Related lists: **Approval History**, **Activity History** and **Equipment Loan History** (field changes).
+
+> **Note:** Approval Status can never be edited by hand. Reps can't edit Sales Rep or Sales Manager either. Loans have no Change Owner action.

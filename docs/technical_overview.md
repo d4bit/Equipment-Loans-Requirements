@@ -69,3 +69,32 @@ The 30-day maximum is inclusive (PO confirmed). The two date rules are mutually 
 - Tab visibility will be added by US-112.
 - The sharing rule needs OWD Private (set in US-109).
 - **Post-deploy:** assign the permission sets and group membership from Lumen's lists of reps and managers. Managers get `Equipment_Loan_Manager` only.
+
+## Equipment Loan approval guards (US-114)
+
+| Metadata | API Name | Notes |
+|---|---|---|
+| ValidationRule | `Equipment_Loan__c.Shipped_Requires_Approval` | Error on `Status__c` when Status = `Shipped` on create or Status change and `Approval_Status__c` ≠ `Approved`. |
+| ValidationRule | `Equipment_Loan__c.Approval_Status_System_Only` | Error on `Approval_Status__c` when it is set on create to anything other than blank/`Not_Submitted`, or when it changes on update. Approval process field updates don't re-run validation rules, so US-113 is unaffected. |
+| CustomPermission | `Bypass_Equipment_Loan_Validation` | Both rules check `NOT($Permission.Bypass_Equipment_Loan_Validation)`. US-110 date rules intentionally don't check it. |
+| PermissionSet | `Equipment_Loan_Data_Migration` | Grants only the custom permission. Not assigned by default. Assign only for the US-120 load window, then remove. |
+
+Deploy together with US-109.
+
+## User manager prerequisite (TK-115)
+
+TK-115 was cancelled by the PO. The project doesn't maintain User.ManagerId; the admin does that outside the project. Sales_Manager__c is set from the Sales Rep's ManagerId only when a loan is created or its Sales Rep changes (US-111). If the rep has no manager, the field stays empty and the approval can't route. Changing a user's manager doesn't recalculate existing loans: an admin re-saves the loan's Sales Rep. Only admins may delete loans (the US-118 permission sets have allowDelete=false).
+
+## Equipment Loan user interface (US-112)
+
+| Component | API name | Notes |
+|---|---|---|
+| Tab | `Equipment_Loan__c` | Not in any app. Visible via `tabSettings` in `Equipment_Loan_User` and `Equipment_Loan_Manager` |
+| Layout | `Equipment_Loan__c-Equipment Loan Layout` | Sections Loan Details / Approval (`Approval_Status__c` Readonly) / System Information. Excludes `ChangeOwnerOne` and `ChangeRecordType`. Actions: Edit, Submit, Delete. Related lists: `RelatedProcessHistoryList`, `RelatedHistoryList`, `RelatedEntityHistoryList` |
+| Compact layout | `Equipment_Loan_Compact` | Name, Account__c, Equipment_Name__c, Status__c, Return_Date__c; assigned on the object |
+| FlexiPage | `Equipment_Loan_Record_Page` | Desktop default via the View `actionOverrides` on the object |
+| Path | `Equipment_Loan_Status_Path` | `Status__c`, all values, active (needs Path Settings enabled) |
+| List views | `Open_Loans`, `My_Loans` | Open_Loans: scope Everything, Status in Requested/Approved/Shipped. My_Loans: scope Mine |
+| Account related list | `Equipment_Loans` (on `Account__c`) | **Manual post-deploy step** on the `Business_Account`, `SDO_Account_Simple` and `SDO_Account_Partner` layouts. Not in metadata, so the shared SDO layouts are not overwritten |
+
+Rep read-only access to Sales Rep and Sales Manager comes from FLS (US-118), not from the layout.
