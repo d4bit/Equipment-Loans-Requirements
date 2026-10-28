@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Managers: create/read/edit and View All Equipment Loans; no delete or Modify All. Can edit Sales Rep/Manager; Approval Status read-only. Edit on all loans via group Equipment_Loan_Managers + sharing rule (US-118).</description>
+    <description>Managers: create/read/edit and View All Equipment Loans; no delete or Modify All. Can edit Sales Rep/Manager; Approval Status read-only. Edit on all loans via group Equipment_Loan_Managers + sharing rule (US-118). Equipment Loans tab visible (US-112).</description>
     <fieldPermissions>
         <editable>false</editable>
         <field>Equipment_Loan__c.Approval_Status__c</field>
@@ -45,4 +45,8 @@
         <object>Equipment_Loan__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <tabSettings>
+        <tab>Equipment_Loan__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>

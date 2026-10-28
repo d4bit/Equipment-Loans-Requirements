@@ -2,8 +2,11 @@
 
 ## Changes
 
-- 2025 — US-114 Block Shipped status until loan is approved: Status can be set to Shipped only after approval. Approval Status can no longer be changed manually. Added a migration-only bypass permission set.
-- 2025 — US-110 Loan date validation: Return Date must now be after Start Date and at most 30 days later (30 days is allowed).
-- 2025 — US-118 Equipment Loan permission sets for reps and managers: added the rep and manager permission sets, the Equipment Loan Managers group and its Edit sharing rule.
-- 2025 — US-111 Equipment Loan automation: the loan Owner now follows the Sales Rep (see the technical overview).
-- 2025 — US-109 Equipment Loan object: added the Equipment Loan object and its fields.
+- 2025 — US-116 Daily return reminder email to sales rep: daily 08:00 Pacific email to the Sales Rep of Shipped loans due back tomorrow, logged as a completed email activity.
+- 2025 — US-112 Equipment Loan user interface: Equipment Loans tab (App Launcher), Open Loans / My Loans list views, record page with Status path and compact layout, and an Account related list (added manually post-deploy).
+- 2025 — US-118 Equipment Loan access control: permission sets for loan access; only admins can delete loans.
+- 2025 — US-114 Block Shipped status until loan is approved: a loan can be marked Shipped only after manager approval; Approval Status can be changed only by the approval process; an unassigned bypass permission set exists for data migration.
+- 2025 — TK-115 User manager prerequisite: cancelled; the admin maintains user managers outside the project.
+- 2025 — US-111 Equipment Loan automation: Sales Rep and Sales Manager are filled automatically.
+- 2025 — US-110 Loan dates: the 30-day rule for loan dates.
+- 2025 — US-109 Equipment Loan object: new Equipment Loan record with core fields.

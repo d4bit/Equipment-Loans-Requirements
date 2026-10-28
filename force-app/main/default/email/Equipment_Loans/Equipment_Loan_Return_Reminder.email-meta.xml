@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Return reminder sent to the loan's Sales Rep the day before the Return Date (US-116). Used by email alert EL_Return_Reminder_Alert.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Equipment Loan Return Reminder</name>
+    <style>none</style>
+    <subject>Equipment loan {!Equipment_Loan__c.Name} is due back tomorrow</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
