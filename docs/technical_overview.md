@@ -45,3 +45,19 @@ History tracked: 9 custom fields + Owner (10/20).
 - Queues are not enabled on the object, so the owner is always a User.
 
 **Deployment:** ships with US-109 in the same release. Manifests are `docs/stories/US-111/manifest/US-111-package.xml` and `US-111-with-US-109-validate-package.xml` (combined check-only validation). Before go-live, fill in `User.ManagerId` for every sales rep. If the flow was deployed inactive, activate it.
+
+## Equipment Loan access control (US-118)
+
+| Component | Type | Settings |
+|---|---|---|
+| `Equipment_Loan_User` | Permission set (no license) | Equipment_Loan__c Read/Create/Edit; Account Read and Contact Read; `Approval_Status__c`, `Sales_Rep__c` and `Sales_Manager__c` Read only |
+| `Equipment_Loan_Manager` | Permission set (no license) | Same as User + View All; `Sales_Rep__c` and `Sales_Manager__c` Read + Edit; `Approval_Status__c` Read only |
+| `Equipment_Loan_Managers` | Public group | Members are the managers; doesIncludeBosses = false |
+| `Equipment_Loan__c.Equipment_Loan_Managers_Edit` | Owner-based sharing rule | All Internal Users → Equipment_Loan_Managers, Edit |
+
+- No business user has Delete or Modify All.
+- Required fields aren't listed in the permission sets; they are reachable through object access.
+- Contact Read is required alongside Account Read because Person Accounts are enabled.
+- Tab visibility will be added by US-112.
+- The sharing rule needs OWD Private (set in US-109).
+- **Post-deploy:** assign the permission sets and group membership from Lumen's lists of reps and managers. Managers get `Equipment_Loan_Manager` only.

@@ -30,3 +30,19 @@ An **Equipment Loan** records a demo device lent to a hospital. Each loan gets a
 - **Approval Status** is updated by the approval process. You cannot edit it.
 - Loans are private: you see the loans you own. Managers can see all loans.
 - You cannot delete an account that still has loans.
+
+## Who can do what with equipment loans
+
+What you can do depends on the access your administrator gives you.
+
+| Action | Sales rep | Sales manager |
+|---|---|---|
+| Create a loan and edit its details (Equipment Name, dates, Status) | Yes | Yes |
+| See every loan in the company | Only the loans you have access to | Yes |
+| Change **Sales Rep** or **Sales Manager** | No (read-only) | Yes |
+| Change **Approval Status** | No | No (the approval process updates it) |
+| Delete a loan | No | No |
+
+**Tips**
+- If you can't find the **Equipment Loans** tab, or the Equipment Loans list on an account, you don't have access yet. Ask your Salesforce administrator.
+- When a manager changes the **Sales Rep**, the loan's owner changes to that person automatically.
