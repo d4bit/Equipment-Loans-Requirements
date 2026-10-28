@@ -39,17 +39,30 @@ What you can do depends on the access your administrator gives you.
 
 ## Shipping a loan: manager approval required
 
-You can set a loan's **Status** to **Shipped** only after your manager has approved it (**Approval Status** = Approved). This applies to everyone, including managers and administrators.
+Every loan must be approved by your manager (the loan's **Sales Manager**) before you can set its **Status** to **Shipped**. This rule applies to everyone, including managers and administrators.
 
-**To ship a loan:**
-1. Submit the loan for approval and wait for your manager to approve it.
-2. Open the loan, set **Status** to **Shipped** and save.
+**To submit a loan for approval:**
+1. Open a loan with **Status** = Requested. **Sales Manager** must be filled in.
+2. Click **Submit for Approval** and add a comment if you want.
+3. **Approval Status** changes to **Pending** and your manager receives the email "Equipment loan EL-xxxxx needs your approval". While the request is pending, you cannot edit the loan.
+
+**For managers – to approve or reject:**
+1. Open the link in the email, or open the loan and go to the **Approval History** list.
+2. Click **Approve** or **Reject**. When you reject, add a comment explaining why. The rep receives your comment.
+
+**What happens next:**
+- **Approved:** **Approval Status** = Approved and **Status** stays Requested. You get the email "Equipment loan EL-xxxxx approved". Open the loan, set **Status** to **Shipped** and save.
+- **Rejected:** **Approval Status** = Rejected. You get the email "Equipment loan EL-xxxxx rejected" with your manager's comment. Fix the loan and click **Submit for Approval** again.
+- **Recall:** to withdraw a pending request, click **Recall** in **Approval History**. **Approval Status** goes back to Not Submitted and you can edit the loan again.
 
 **What you may see:**
-- "This loan must be approved by your manager before it can be shipped." appears if the loan is Not Submitted, Pending or Rejected. It also appears if you try to create a new loan directly as Shipped.
-- "Approval Status is set by the approval process and cannot be changed manually." appears if you try to edit **Approval Status** yourself. Only the approval actions (submit, approve, reject, recall) change it.
+- "…does not meet the entry criteria or initial submitters of any active approval processes…" appears if the loan is already Pending or Approved, is not in Status Requested, or has no **Sales Manager**. If your loan has no Sales Manager, ask your administrator to set your manager on your user record.
+- "This loan must be approved by your manager before it can be shipped." appears if you try to set Shipped before approval, or if you try to create a new loan directly as Shipped.
+- "Approval Status is set by the approval process and cannot be changed manually." appears if you try to edit **Approval Status** yourself.
 
-**Tip:** Once a loan is Shipped and approved, you can still edit its other fields, such as **Serial Number**.
+**Tips:**
+- Your manager's delegated approver cannot approve loans. Only your own manager can.
+- An approved loan does not need to be approved again. If dates or equipment must change after approval, ask an administrator.
 
 ## Finding and opening equipment loans
 

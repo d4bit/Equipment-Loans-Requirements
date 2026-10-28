@@ -121,3 +121,29 @@ Rep read-only access to Sales Rep and Sales Manager comes from FLS (US-118), not
 - `workflows/Equipment_Loan__c.workflow-meta.xml` is shared with US-113. Merge the alerts and field updates from both stories.
 - Post-deploy: set the Default Workflow User, check that Scheduled Jobs shows 08:00 Pacific, and set Deliverability to All Email.
 - There is no Apex and no permission set change.
+
+## Equipment Loan approval process (US-113)
+
+Declarative, no Apex.
+
+| Item | Value |
+|---|---|
+| Approval process | `Equipment_Loan__c.Equipment_Loan_Manager_Approval` (active, order 1) |
+| Entry criteria | `Status__c` = `Requested`; `Approval_Status__c` blank, `Not_Submitted` or `Rejected`; `Sales_Manager__c` not blank |
+| Submitters | All internal users (record visibility is the gate) |
+| Step | `Manager_Approval`, approver = `Sales_Manager__c`, delegates not allowed |
+| Lock | Locked while pending (admin or current approver can edit); unlocked after approval, rejection and recall |
+| Recall | Allowed |
+
+| Phase | Field update (`Approval_Status__c`) | Alert |
+|---|---|---|
+| Submit | `EL_Set_Approval_Pending` → `Pending` | Assignment email `Equipment_Loan_Approval_Request` |
+| Approve | `EL_Set_Approval_Approved` → `Approved` | `EL_Loan_Approved_Alert` → Sales Rep |
+| Reject | `EL_Set_Approval_Rejected` → `Rejected` | `EL_Loan_Rejected_Alert` → Sales Rep (with comments) |
+| Recall | `EL_Set_Approval_Not_Submitted` → `Not_Submitted` | – |
+
+- Email templates: Classic Text in folder `Equipment_Loans`. Alerts use sender CurrentUser because the org has no org-wide address.
+- Field updates run in system context and do not re-run validation rules, which US-114 relies on. Flow `Equipment_Loan_Before_Save_Set_Rep_Manager` re-fires but has no effect.
+- Shared file `workflows/Equipment_Loan__c.workflow-meta.xml` also contains US-116's `EL_Return_Reminder_Alert`. Always edit it starting from the merged content.
+- Post-deploy: check that the process is Active, set Deliverability = All Email, and make sure reps have a User.ManagerId.
+- Open point: unlock after approval vs. the PO's "approved is locked" (#28).
