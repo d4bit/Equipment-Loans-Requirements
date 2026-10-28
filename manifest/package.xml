@@ -60,6 +60,15 @@
         <name>PermissionSet</name>
     </types>
     <types>
+        <members>Equipment_Loan_Reports</members>
+        <members>Equipment_Loan_Reports/Open_Equipment_Loans_by_Equipment</members>
+        <name>Report</name>
+    </types>
+    <types>
+        <members>Equipment_Loans_with_Account</members>
+        <name>ReportType</name>
+    </types>
+    <types>
         <members>Equipment_Loan__c.Equipment_Loan_Managers_Edit</members>
         <name>SharingOwnerRule</name>
     </types>
