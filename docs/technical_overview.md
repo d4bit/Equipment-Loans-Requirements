@@ -11,7 +11,7 @@ Introduced by US-109. 100% declarative.
 | `Account__c` | Lookup(Account) | Yes | Delete = Restrict; filter `IsPersonAccount = False`; relationship `Equipment_Loans` |
 | `Equipment_Name__c` | Restricted picklist (GVS `Equipment_Name`) | Yes | API = label, contains spaces |
 | `Serial_Number__c` | Text(80) | Yes | Not unique |
-| `Start_Date__c` / `Return_Date__c` | Date | Yes | |
+| `Start_Date__c` / `Return_Date__c` | Date | Yes | Range enforced by US-110 rules |
 | `Status__c` | Restricted picklist | Yes | Requested (default), Approved, Shipped, Returned, Rejected, Cancelled; open = first three |
 | `Approval_Status__c` | Restricted picklist | No | Not_Submitted (default), Pending, Approved, Rejected; approval-process only |
 | `Sales_Rep__c` | Lookup(User) | No | Filter active Standard users |
@@ -19,13 +19,21 @@ Introduced by US-109. 100% declarative.
 
 History tracked: 9 custom fields + Owner (10/20).
 
-**Validation rules:** `Account_Cannot_Change` — `AND(NOT(ISNEW()), ISCHANGED(Account__c))`.
+**Validation rules** (all active, no bypass, apply to admins and API loads):
 
-**Global value set:** `Equipment_Name` — Ultrasound U1, Patient Monitor M5, Blood Analyzer A200, Infusion Pump P3, ECG Device E12.
+| Rule | Story | Formula | Error on | Message |
+|---|---|---|---|---|
+| `Account_Cannot_Change` | US-109 | `AND(NOT(ISNEW()), ISCHANGED(Account__c))` | | |
+| `Return_Date_After_Start_Date` | US-110 | `AND(NOT(ISBLANK(Start_Date__c)), NOT(ISBLANK(Return_Date__c)), Return_Date__c <= Start_Date__c)` | `Return_Date__c` | Return Date must be after Start Date. |
+| `Return_Date_Max_30_Days` | US-110 | `AND(NOT(ISBLANK(Start_Date__c)), NOT(ISBLANK(Return_Date__c)), Return_Date__c - Start_Date__c > 30)` | `Return_Date__c` | Return Date must be no more than 30 days after Start Date. |
 
-**Permissions:** none yet (FT-108). Field-level required fields must not be in permission set field permissions.
+The 30-day maximum is inclusive (PO confirmed). The two date rules are mutually exclusive. Apex test data must use Return Date = Start Date + 1..30. If migration is approved later, add a custom permission `Bypass_Equipment_Loan_Validation` to the formulas.
 
-**Deployment:** no manual steps; manifest `docs/stories/US-109/manifest/US-109-package.xml`.
+**Global value set:** `Equipment_Name`: Ultrasound U1, Patient Monitor M5, Blood Analyzer A200, Infusion Pump P3, ECG Device E12.
+
+**Permissions:** see "Equipment Loan access control (US-118)". Field-level required fields must not be in permission set field permissions.
+
+**Deployment:** no manual steps. Manifests are `docs/stories/US-109/manifest/US-109-package.xml` and `docs/stories/US-110/manifest/US-110-package.xml`. US-110 must deploy with or after US-109.
 
 ## Equipment Loan automation (US-111)
 
